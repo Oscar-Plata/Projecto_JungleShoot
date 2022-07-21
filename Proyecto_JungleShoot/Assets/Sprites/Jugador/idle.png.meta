@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: john_idle_0
+      name: idle_0
       rect:
         serializedVersion: 2
         x: 5
@@ -118,20 +118,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0556a166945c9e4459be4b3cff3e1837
-      internalID: -122071121
+      spriteID: 067569e84078deb4c9bfd5ab842ca05f
+      internalID: 846062624
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: john_idle_1
+      name: idle_1
       rect:
         serializedVersion: 2
         x: 31
         y: 0
         width: 19
-        height: 17
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7373e44fd6700f4e97c4e54496869ef
-      internalID: -169840341
+      spriteID: 9345b8146c792974e96f83df4ad2e421
+      internalID: 1230753441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: john_idle_2
+      name: idle_2
       rect:
         serializedVersion: 2
         x: 57
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0dc0b639cde629a489bccc14cbcdfab0
-      internalID: -2064063544
+      spriteID: 495b860d3cb111648832361e4ca700c2
+      internalID: -1827013325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: john_idle_3
+      name: idle_3
       rect:
         serializedVersion: 2
         x: 83
@@ -181,14 +181,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3575749938670f74a93d831b50b97d20
-      internalID: -708466397
+      spriteID: b987ea1f2af98cd4a8e2b56f43e6509f
+      internalID: 421965315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: john_idle_4
+      name: idle_4
       rect:
         serializedVersion: 2
         x: 109
@@ -202,8 +202,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3d6abfbd4dc2d043a59b0df7e2df1e4
-      internalID: -1027950665
+      spriteID: 3450d841275a82142a440937db9aabff
+      internalID: -1551667158
       vertices: []
       indices: 
       edges: []
@@ -219,11 +219,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      john_idle_4: -1027950665
-      john_idle_3: -708466397
-      john_idle_2: -2064063544
-      john_idle_1: -169840341
-      john_idle_0: -122071121
+      idle_4: -1551667158
+      idle_3: 421965315
+      idle_0: 846062624
+      idle_1: 1230753441
+      idle_2: -1827013325
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
