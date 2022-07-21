@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2266809135909592601}
   - component: {fileID: 1630367779381735799}
   - component: {fileID: 8291307196004177147}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BadCapsule
   m_TagString: Enemigo
   m_Icon: {fileID: 0}
