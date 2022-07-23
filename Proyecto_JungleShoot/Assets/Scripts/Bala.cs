@@ -11,8 +11,7 @@ public class Bala : MonoBehaviour
 
     public float tiempoVida;
 
-    private float instanteVida;
-
+    //private float instanteVida;
     public Rigidbody2D rbChoque;
 
     public string tagDaño;
@@ -25,8 +24,7 @@ public class Bala : MonoBehaviour
 
     void Start()
     {
-        instanteVida = Time.deltaTime;
-
+        //instanteVida = Time.deltaTime;
         //rb.velocity = new Vector2(dirrecion.x * velocidad, dirrecion.y * velocidad);
         rb.AddForce(new Vector2(dirrecion.x * velocidad, dirrecion.y * velocidad), ForceMode2D.Impulse);
         StartCoroutine(matarBala());
@@ -45,13 +43,15 @@ public class Bala : MonoBehaviour
         // Debug.Log(choque.tag);
         if (choque.tag.Equals(tagDaño))
         {
-            Debug.Log("Daño a enemigo"); //detectar colision al enemigo
+            //Debug.Log("Daño a enemigo"); //detectar colision al enemigo
             Destroy (gameObject);
-            Destroy(choque.gameObject);
+
+            //Destroy(choque.gameObject);
+            Debug.Log("Quitar vida");
         }
         else if (choque.tag.Equals("Escenario"))
         {
-            Debug.Log("Choque con Escenario"); //detectar colision al escenario
+            // Debug.Log("Choque con Escenario"); //detectar colision al escenario
             Destroy (gameObject);
         }
         // switch (choque.tag)
