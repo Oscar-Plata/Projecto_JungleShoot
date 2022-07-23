@@ -15,6 +15,8 @@ public class Bala : MonoBehaviour
 
     public Rigidbody2D rbChoque;
 
+    public string tagDaño;
+
     //private float vivo = 0;
     void Awake()
     {
@@ -41,18 +43,28 @@ public class Bala : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D choque)
     {
         // Debug.Log(choque.tag);
-        switch (choque.tag)
+        if (choque.tag.Equals(tagDaño))
         {
-            case "Enemigo":
-                Debug.Log("Daño a enemigo"); //detectar colision al enemigo
-                Destroy (gameObject);
-                Destroy(choque.gameObject);
-                break;
-            case "Escenario":
-                Debug.Log("Choque con Escenario"); //detectar colision al escenario
-                Destroy (gameObject);
-
-                break;
+            Debug.Log("Daño a enemigo"); //detectar colision al enemigo
+            Destroy (gameObject);
+            Destroy(choque.gameObject);
         }
+        else if (choque.tag.Equals("Escenario"))
+        {
+            Debug.Log("Choque con Escenario"); //detectar colision al escenario
+            Destroy (gameObject);
+        }
+        // switch (choque.tag)
+        // {
+        //     case "Enemigo":
+        //         Debug.Log("Daño a enemigo"); //detectar colision al enemigo
+        //         Destroy (gameObject);
+        //         Destroy(choque.gameObject);
+        //         break;
+        //     case "Escenario":
+        //         Debug.Log("Choque con Escenario"); //detectar colision al escenario
+        //         Destroy (gameObject);
+        //         break;
+        // }
     }
 }

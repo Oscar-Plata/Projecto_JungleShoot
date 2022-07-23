@@ -52,6 +52,7 @@ MonoBehaviour:
   velocidad: 20
   tiempoVida: 2
   rbChoque: {fileID: 0}
+  "tagDa\xF1o": Enemigo
 --- !u!212 &1222804437129674482
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -222,7 +223,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9056604, g: 0.10512526, b: 0.020505492, a: 1}
+      key0: {r: 0.46226418, g: 0.080242075, b: 0.18875618, a: 1}
       key1: {r: 1, g: 0.84043443, b: 0, a: 0.43137255}
       key2: {r: 0.35629895, g: 0.6886792, b: 0.11304731, a: 1}
       key3: {r: 0.9056604, g: 0.10512526, b: 0.020505492, a: 0}
