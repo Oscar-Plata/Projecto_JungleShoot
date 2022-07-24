@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7273002969149512545}
   m_Layer: 0
   m_Name: Bala
-  m_TagString: Proyectil
+  m_TagString: Bala Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   dirrecion: {x: 0, y: 0}
   velocidad: 20
   tiempoVida: 2
-  rbChoque: {fileID: 0}
+  "da\xF1oBala": 1
   "tagDa\xF1o": Enemigo
 --- !u!212 &1222804437129674482
 SpriteRenderer:

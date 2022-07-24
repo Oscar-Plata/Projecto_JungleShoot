@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 480028388}
   - component: {fileID: 480028391}
   m_Layer: 0
-  m_Name: TargetPlayer
+  m_Name: RangoMira
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,6 +132,7 @@ Transform:
   m_Children:
   - {fileID: 5601681189905860147}
   - {fileID: 480028390}
+  - {fileID: 8719857043977227665}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -219,7 +220,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: d064643ec77fdc3498e1f25e6dd659d0, type: 2}
+  m_Material: {fileID: 6200000, guid: 7dc1307f1352b14419a9cced5f10d3a0, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -276,15 +277,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 743b85fa7c75ebb43bef140b7ac3d8e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detector: {fileID: 480028387}
-  dtp: {fileID: 480028388}
-  jugador: {fileID: 0}
+  mira: {fileID: 5601681189905860147}
   Velocidades: {x: 0, y: 0, z: 0}
   direccion: 0
-  velocidadMovimiento: 4
+  velocidadMovimiento: 4.5
   puedeMoverse: 0
   tiempoEspera: 3
   tiempoDisparo: 1.2
+  detector: {fileID: 480028387}
+  jugFrente: {fileID: 480028388}
+  jugEspalda: {fileID: 7147945943829662916}
+  layerStage:
+    serializedVersion: 2
+    m_Bits: 64
+  radioColision: 0.5
+  hayJug: 0
   vigilando: 0
   patruyando: 0
   atacando: 0
@@ -294,9 +301,105 @@ MonoBehaviour:
   colorHit: {r: 0.9433962, g: 0.82688624, b: 0, a: 0.7254902}
   invencible: 0
   golpeado: 0
-  tiempoInvencible: 0.2
+  tiempoInvencible: 0.4
   fuerzaGolpeado: {x: 6, y: 3}
   tiempoGolpeado: 0.3
+--- !u!1 &6122473826136126547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8719857043977227665}
+  - component: {fileID: 8198795094391767092}
+  - component: {fileID: 7147945943829662916}
+  - component: {fileID: 3018875075038685578}
+  m_Layer: 0
+  m_Name: Espalda
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8719857043977227665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122473826136126547}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.81, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6412800383367469779}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &8198795094391767092
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122473826136126547}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 2.48}
+  m_EdgeRadius: 0
+--- !u!114 &7147945943829662916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122473826136126547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad7a51f25d37ff47a6201fe604e8f0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectado: 0
+  enDeteccion: 0
+  tagADetectar: Player
+--- !u!50 &3018875075038685578
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122473826136126547}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &6657616034714755536
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,11 +13,9 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     private SpriteRenderer sr;
 
-    public GameObject detector;
+    private Collider2D cld;
 
-    public DetectarPlayer dtp;
-
-    public Transform jugador;
+    public Transform mira;
 
     [Header("Movimiento")]
     public Vector3 Velocidades;
@@ -34,6 +32,20 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     public float tiempoEspera;
 
     public float tiempoDisparo;
+
+    [Header("Detectores")]
+    public GameObject detector;
+
+    public DetectarPlayer jugFrente;
+
+    public DetectarPlayer jugEspalda;
+
+    public LayerMask layerStage; //Capa suelo a ala cual se colisionara
+
+    public float radioColision = 0.5f;
+
+    // public DetectarPlayer balaEspalda;
+    public bool hayJug = false;
 
     [Header("Estado")]
     public bool vigilando; //Estado 0
@@ -68,8 +80,9 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         rb = GetComponent<Rigidbody2D>();
         an = GetComponent<Animator>();
         dp = GetComponent<Disparar>();
-        dtp = detector.GetComponent<DetectarPlayer>();
+        jugFrente = detector.GetComponent<DetectarPlayer>();
         sr = GetComponent<SpriteRenderer>();
+        cld = gameObject.GetComponent<CapsuleCollider2D>();
     }
 
     void Start()
@@ -82,10 +95,9 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     void Update()
     {
         if (patruyando) rb.velocity = new Vector2(VelMovRnd * direccion, rb.velocity.y);
-
-        if (golpeado) transform.LookAt(jugador);
-
-        atacando = dtp.detectado;
+        atacando = jugFrente.detectado;
+        hayJug = jugEspalda.detectado;
+        if (hayJug && !atacando || DetectarPared()) cambiarDireccion(); //voltear al player si esta por la espalda
         if (atacando && !muerto)
         {
             vigilando = false;
@@ -93,6 +105,11 @@ public class ControlEnemigo : MonoBehaviour, IDaño
             StartCoroutine("DispararAPlayer");
         }
         Velocidades = rb.velocity;
+    }
+
+    private bool DetectarPared()
+    {
+        return Physics2D.OverlapCircle(mira.position, radioColision, layerStage);
     }
 
     private void CambiarEstado()
@@ -162,11 +179,11 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         if (!muerto && !invencible)
         {
             vidas -= (int) cantidad;
-
+            StartCoroutine("serInvencible");
             StartCoroutine("serGolpeado");
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(direccion * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
-            StartCoroutine("serInvencible");
+
             if (vidas <= 0)
             {
                 muerto = true;
@@ -187,14 +204,24 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         golpeado = true;
         an.SetBool("Daño", true);
         sr.color = colorHit;
+        rb.gravityScale = .5f;
+        cld.enabled = false;
         yield return new WaitForSeconds(tiempoGolpeado);
+        if (golpeado && !atacando) cambiarDireccion(); //voltear si es golpeado
         golpeado = false;
         sr.color = colorOrg;
+        rb.gravityScale = 1f;
+        cld.enabled = true;
+    }
+
+    public void despuesDeGolpear()
+    {
         an.SetBool("Daño", false);
     }
 
     public void Morir(bool check)
     {
+        rb.velocity = Vector2.zero;
         patruyando = atacando = vigilando = false;
         puedeMoverse = false;
         muerto = true;
@@ -202,11 +229,13 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         an.SetBool("Caminar", false);
         an.SetBool("Daño", false);
         an.SetBool("Morir", true);
-        Destroy (gameObject);
+        rb.gravityScale = 0;
+        cld.enabled = false;
     }
 
     public void Destruir()
     {
+        an.SetBool("Morir", false);
         Destroy (gameObject);
     }
 

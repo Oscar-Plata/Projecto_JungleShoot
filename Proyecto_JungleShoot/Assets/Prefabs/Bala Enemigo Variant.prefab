@@ -77,6 +77,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1222804437129674495, guid: 3a0a8fbd89313ef4d856678739a46fb2, type: 3}
       propertyPath: m_Name
+      value: Bala Enemigo Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222804437129674495, guid: 3a0a8fbd89313ef4d856678739a46fb2, type: 3}
+      propertyPath: m_TagString
       value: Bala Enemigo
       objectReference: {fileID: 0}
     - target: {fileID: 7273002969149512545, guid: 3a0a8fbd89313ef4d856678739a46fb2, type: 3}

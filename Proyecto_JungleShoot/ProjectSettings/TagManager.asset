@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Proyectil
   - Enemigo
   - Escenario
+  - Bala Enemigo
+  - Bala Player
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - esquinas
   - Enemigos
   - Jugador
-  - 
+  - Proyectil
   - 
   - 
   - 

@@ -338,8 +338,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         {
             float miraY = 0;
             float miraX = direccionAnterior;
-            if (inputAxs.y > 0.5) miraY = 1;
-            if (inputAxs.y < -0.5) miraY = -1;
+            if (inputAxs.y > 0.3) miraY = 1;
+            if (inputAxs.y < -0.3) miraY = -1;
             if (inputAxs.y == 1)
             {
                 miraY = 1;
