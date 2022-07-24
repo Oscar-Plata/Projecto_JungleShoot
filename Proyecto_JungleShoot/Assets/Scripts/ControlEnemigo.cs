@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlEnemigo : MonoBehaviour
+public class ControlEnemigo : MonoBehaviour, IDaño
 {
     [Header("Comopnenetes")]
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
 
-    public Animator an;
+    private Animator an;
 
-    public Disparar dp;
+    private Disparar dp;
+
+    private SpriteRenderer sr;
 
     public GameObject detector;
 
     public DetectarPlayer dtp;
+
+    public Transform jugador;
 
     [Header("Movimiento")]
     public Vector3 Velocidades;
@@ -42,16 +46,35 @@ public class ControlEnemigo : MonoBehaviour
 
     public bool muerto; //Estado 3
 
+    [Header("Vida")]
+    public float vidas;
+
+    public Color colorHit;
+
+    private Color colorOrg;
+
+    public bool invencible = false;
+
+    public bool golpeado = false;
+
+    public float tiempoInvencible = 0.5f;
+
+    public Vector2 fuerzaGolpeado;
+
+    public float tiempoGolpeado = .3f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        an = this.GetComponent<Animator>();
+        an = GetComponent<Animator>();
         dp = GetComponent<Disparar>();
-        //dtp = gameObject.GetComponent<DetectarPlayer>();
+        dtp = detector.GetComponent<DetectarPlayer>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void Start()
     {
+        colorOrg = sr.color;
         CambiarEstado();
     }
 
@@ -60,8 +83,10 @@ public class ControlEnemigo : MonoBehaviour
     {
         if (patruyando) rb.velocity = new Vector2(VelMovRnd * direccion, rb.velocity.y);
 
+        if (golpeado) transform.LookAt(jugador);
+
         atacando = dtp.detectado;
-        if (atacando)
+        if (atacando && !muerto)
         {
             vigilando = false;
             patruyando = false;
@@ -72,7 +97,7 @@ public class ControlEnemigo : MonoBehaviour
 
     private void CambiarEstado()
     {
-        if (!atacando)
+        if (!atacando && !muerto)
         {
             int selector = 0;
             selector = Random.Range(0, 2);
@@ -130,5 +155,64 @@ public class ControlEnemigo : MonoBehaviour
             an.SetBool("Disparar", false);
             CambiarEstado();
         }
+    }
+
+    public void RecibirDaño(float cantidad)
+    {
+        if (!muerto && !invencible)
+        {
+            vidas -= (int) cantidad;
+
+            StartCoroutine("serGolpeado");
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2(direccion * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
+            StartCoroutine("serInvencible");
+            if (vidas <= 0)
+            {
+                muerto = true;
+                Morir(true);
+            }
+        }
+    }
+
+    private IEnumerator serInvencible()
+    {
+        invencible = true;
+        yield return new WaitForSeconds(tiempoInvencible);
+        invencible = false;
+    }
+
+    private IEnumerator serGolpeado()
+    {
+        golpeado = true;
+        an.SetBool("Daño", true);
+        sr.color = colorHit;
+        yield return new WaitForSeconds(tiempoGolpeado);
+        golpeado = false;
+        sr.color = colorOrg;
+        an.SetBool("Daño", false);
+    }
+
+    public void Morir(bool check)
+    {
+        patruyando = atacando = vigilando = false;
+        puedeMoverse = false;
+        muerto = true;
+        an.SetBool("Disparar", false);
+        an.SetBool("Caminar", false);
+        an.SetBool("Daño", false);
+        an.SetBool("Morir", true);
+        Destroy (gameObject);
+    }
+
+    public void Destruir()
+    {
+        Destroy (gameObject);
+    }
+
+    public void CurarVida(float cantidad)
+    {
+        vidas += cantidad;
+        //efecto Curar
     }
 }

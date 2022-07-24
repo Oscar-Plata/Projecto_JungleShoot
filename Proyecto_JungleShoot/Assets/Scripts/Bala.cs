@@ -11,9 +11,10 @@ public class Bala : MonoBehaviour
 
     public float tiempoVida;
 
-    //private float instanteVida;
-    public Rigidbody2D rbChoque;
+    public float dañoBala = 1.0f;
 
+    //private float instanteVida;
+    //public Rigidbody2D rbChoque;
     public string tagDaño;
 
     //private float vivo = 0;
@@ -43,7 +44,8 @@ public class Bala : MonoBehaviour
         // Debug.Log(choque.tag);
         if (choque.tag.Equals(tagDaño))
         {
-            //Debug.Log("Daño a enemigo"); //detectar colision al enemigo
+            IDaño objeto = choque.GetComponent<IDaño>();
+            if (objeto != null) objeto.RecibirDaño(dañoBala);
             Destroy (gameObject);
 
             //Destroy(choque.gameObject);

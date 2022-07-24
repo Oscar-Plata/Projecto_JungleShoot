@@ -4,7 +4,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MovimientoPlayer : MonoBehaviour
+public class MovimientoPlayer : MonoBehaviour, IDaño
 {
 #region varables
     [Header("Componentes")]
@@ -19,6 +19,8 @@ public class MovimientoPlayer : MonoBehaviour
     public Disparar dp;
 
     public ParticleSystem efectoDust;
+
+    private SpriteRenderer sr;
 
     // public ParticleSystem efectoDash;
     [Header("Movimiento")]
@@ -93,28 +95,58 @@ public class MovimientoPlayer : MonoBehaviour
 
     public float tiempoAtaqueInicio;
 
+    [Header("Vida")]
+    public float vidas;
+
+    public float vidasTotales = 3;
+
+    public bool muerto = false;
+
+    public Color colorHit;
+
+    private Color colorOrg;
+
+    public bool invencible = false;
+
+    public bool golpeado = false;
+
+    public float tiempoInvencible = 0.5f;
+
+    public Vector2 fuerzaGolpeado;
+
+    public float tiempoGolpeado = .3f;
+
 
 #endregion //cooldown entre ruedos
 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
         an = this.GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        colorOrg = sr.color;
         saltosRestantes = saltosExtra;
         tiempoJuego = 0;
         puedeRodar = true;
+        puedeMoverse = true;
         ruedosRestantes = ruedosTotal;
+        vidas = vidasTotales;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!muerto) puedeMoverse = true;
         if (!puedeMoverse) return;
 
         //Movimiento
-        if (!rodando) rb.velocity = new Vector2(velocidadActual, rb.velocity.y);
+        if (!rodando && !golpeado) rb.velocity = new Vector2(velocidadActual, rb.velocity.y);
 
         //Verificar si esta pisando el suelo
         Pisar();
@@ -202,7 +234,7 @@ public class MovimientoPlayer : MonoBehaviour
     public void OnSaltar()
     {
         //verifica que pueda saltar y tenga saltos disponibles
-        if (saltosRestantes > 0)
+        if (saltosRestantes > 0 && puedeMoverse)
         {
             an.SetBool("salto", true);
             StartCoroutine(IniciarSalto()); //llamada a corrutina triggerSalto
@@ -245,7 +277,7 @@ public class MovimientoPlayer : MonoBehaviour
 #region Rodar/Dash
     public void OnRodar()
     {
-        if (puedeRodar)
+        if (puedeRodar && puedeMoverse)
         {
             //Debug.Log("Rodar");
             rodando = true; //activa el indicador que esta rodando para limitar otras accciones
@@ -294,28 +326,90 @@ public class MovimientoPlayer : MonoBehaviour
         enSuelo = true;
         saltosRestantes = saltosExtra;
         puedeRodar = true;
-
-        //an.Play("Aparecer_JGDR");
+        puedeMoverse = true;
+        vidas = vidasTotales;
+        muerto = false;
         ruedosRestantes = ruedosTotal;
     }
 
     public void OnAtacar()
     {
-        float miraY = 0;
-        float miraX = direccionAnterior;
-        if (inputAxs.y > 0.5) miraY = 1;
-        if (inputAxs.y < -0.5) miraY = -1;
-        if (inputAxs.y == 1)
+        if (!muerto)
         {
-            miraY = 1;
-            miraX = 0;
+            float miraY = 0;
+            float miraX = direccionAnterior;
+            if (inputAxs.y > 0.5) miraY = 1;
+            if (inputAxs.y < -0.5) miraY = -1;
+            if (inputAxs.y == 1)
+            {
+                miraY = 1;
+                miraX = 0;
+            }
+            if (inputAxs.y == -1)
+            {
+                miraY = -1;
+                miraX = 0;
+            }
+            dp.dirreccion = new Vector2(miraX, miraY);
+            dp.Disparo();
         }
-        if (inputAxs.y == -1)
+    }
+
+    public void RecibirDaño(float cantidad)
+    {
+        if (!muerto && !invencible)
         {
-            miraY = -1;
-            miraX = 0;
+            vidas -= (int) cantidad;
+
+            StartCoroutine("serGolpeado");
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2(direccionAnterior * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
+            StartCoroutine("serInvencible", tiempoInvencible);
+
+            //StartCoroutine("ParpadearHit", 3);
+            if (vidas <= 0)
+            {
+                muerto = true;
+                Morir(true);
+            }
         }
-        dp.dirreccion = new Vector2(miraX, miraY);
-        dp.Disparo();
+    }
+
+    private IEnumerator serInvencible(float tiempo)
+    {
+        invencible = true;
+        yield return new WaitForSeconds(tiempo);
+        invencible = false;
+    }
+
+    private IEnumerator serGolpeado()
+    {
+        golpeado = true;
+        sr.color = colorHit;
+        yield return new WaitForSeconds(tiempoGolpeado);
+        golpeado = false;
+        sr.color = colorOrg;
+    }
+
+    // private IEnumerator parpadearHit(int veces)
+    // {
+    //     for (int i = 0; i < veces; i++)
+    //     {
+    //         yield return new WaitForSeconds(f);
+    //         sr.color = colorOrg;
+    //     }
+    // }
+    public void Morir(bool check)
+    {
+        //an.SetBool("Morir", true);
+        puedeMoverse = false;
+        //this.gameObject.SetActive(false);
+    }
+
+    public void CurarVida(float cantidad)
+    {
+        vidas += cantidad;
+        if (vidas > vidasTotales) vidasTotales++;
+        //efecto Curar
     }
 }

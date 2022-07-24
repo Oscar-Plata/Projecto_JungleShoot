@@ -219,7 +219,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d064643ec77fdc3498e1f25e6dd659d0, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -259,10 +259,10 @@ MonoBehaviour:
   puntoMira: {fileID: 5601681189905860147}
   particulas: {fileID: 1736418841307205070}
   Bala: {fileID: 7815631376643463825, guid: deb27ab9a3d76cf40883557de0a9c451, type: 3}
-  balasPorDisparo: 3
-  velocidad: 30
-  dispersionBala: 0.3
-  tiempoEntreBalas: 0.033
+  balasPorDisparo: 2
+  velocidad: 20
+  dispersionBala: 1
+  tiempoEntreBalas: 0.1
   dirreccion: {x: 0, y: 0}
 --- !u!114 &3135225606176651094
 MonoBehaviour:
@@ -276,14 +276,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 743b85fa7c75ebb43bef140b7ac3d8e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 1630367779381735799}
-  an: {fileID: 8291307196004177147}
-  dp: {fileID: 1747138984144821291}
   detector: {fileID: 480028387}
   dtp: {fileID: 480028388}
+  jugador: {fileID: 0}
   Velocidades: {x: 0, y: 0, z: 0}
   direccion: 0
-  velocidadMovimiento: 3
+  velocidadMovimiento: 4
   puedeMoverse: 0
   tiempoEspera: 3
   tiempoDisparo: 1.2
@@ -292,6 +290,13 @@ MonoBehaviour:
   atacando: 0
   yaDisparo: 0
   muerto: 0
+  vidas: 3
+  colorHit: {r: 0.9433962, g: 0.82688624, b: 0, a: 0.7254902}
+  invencible: 0
+  golpeado: 0
+  tiempoInvencible: 0.2
+  fuerzaGolpeado: {x: 6, y: 3}
+  tiempoGolpeado: 0.3
 --- !u!1 &6657616034714755536
 GameObject:
   m_ObjectHideFlags: 0
