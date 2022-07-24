@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+//Interfaz que permite danar o curar vida de objetos
 public interface IDaño
 {
     void RecibirDaño(float cantidad);

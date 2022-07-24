@@ -75,7 +75,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     public float tiempoGolpeado = .3f;
 
-    private void Awake()
+    private void Awake() //Obtener componentes inicales
     {
         rb = GetComponent<Rigidbody2D>();
         an = GetComponent<Animator>();
@@ -87,32 +87,38 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     void Start()
     {
-        colorOrg = sr.color;
-        CambiarEstado();
+        colorOrg = sr.color; //guardar color original
+        CambiarEstado(); //cambiarEstado (Patruyar/Vigilar)
     }
 
     // Update is called once per frame
     void Update()
     {
+        //moverse si esta patruyando
         if (patruyando) rb.velocity = new Vector2(VelMovRnd * direccion, rb.velocity.y);
+
+        //detectar jugador por frente o espalda
         atacando = jugFrente.detectado;
         hayJug = jugEspalda.detectado;
         if (hayJug && !atacando || DetectarPared()) cambiarDireccion(); //voltear al player si esta por la espalda
+
+        //Empezar el comportamiento de ataque
         if (atacando && !muerto)
         {
             vigilando = false;
             patruyando = false;
             StartCoroutine("DispararAPlayer");
         }
-        Velocidades = rb.velocity;
+        Velocidades = rb.velocity; //ver velocidades en el inspector
     }
 
-    private bool DetectarPared()
+    private bool
+    DetectarPared() //Detectar si choca con escenario para cambiar de posicion
     {
         return Physics2D.OverlapCircle(mira.position, radioColision, layerStage);
     }
 
-    private void CambiarEstado()
+    private void CambiarEstado() //Cambiar comportamiento al azar
     {
         if (!atacando && !muerto)
         {
@@ -137,7 +143,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
                     VelMovRnd = velocidadMovimiento + Random.Range(-1f, +1f);
                     break;
             }
-            StartCoroutine("tiempoCambio");
+            StartCoroutine("tiempoCambio"); //volver a cambiar despues de un tiempo
         }
     }
 
@@ -149,9 +155,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     private void cambiarDireccion()
     {
-        bool valor = Random.value > 0.5 ? true : false;
-
-        //Debug.Log (valor);
+        bool valor = Random.value > 0.5 ? true : false; //cambiar dirreccion al azar
         if (valor)
             direccion = 1; // Va a la derecha
         else
@@ -161,16 +165,16 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     private IEnumerator DispararAPlayer()
     {
-        if (!yaDisparo)
+        if (!yaDisparo && !muerto)
         {
-            yaDisparo = true;
+            yaDisparo = true; //booleana para controlar el disparo
             dp.dirreccion = new Vector2(direccion, 0);
-            yield return new WaitForSeconds(Random.Range(0.01f, +0.3f));
-            dp.Disparo();
-            yield return new WaitForSeconds(tiempoDisparo + Random.Range(-0.2f, +0.2f));
+            yield return new WaitForSeconds(Random.Range(0.01f, +0.5f)); //Delay para disparar
+            dp.Disparo(); //disparar
+            yield return new WaitForSeconds(tiempoDisparo + Random.Range(-0.2f, +0.2f)); //delay entre disparos
             yaDisparo = false;
-            an.SetBool("Disparar", false);
-            CambiarEstado();
+            an.SetBool("Disparar", false); //Terminar estado de disparo
+            if (!atacando) CambiarEstado(); //cambiar comportamiento al dejar de atacar
         }
     }
 
@@ -178,12 +182,15 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     {
         if (!muerto && !invencible)
         {
-            vidas -= (int) cantidad;
-            StartCoroutine("serInvencible");
-            StartCoroutine("serGolpeado");
+            vidas -= (int) cantidad; //quitar vida
+            StartCoroutine("serInvencible"); //ser invencible por unos segundos
+            StartCoroutine("serGolpeado"); //comportamiento de ser golpeado
+
+            //knockback al ser golpeado
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(direccion * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
 
+            //detectar si se le acabaron las vidas
             if (vidas <= 0)
             {
                 muerto = true;
@@ -194,54 +201,68 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     private IEnumerator serInvencible()
     {
+        //no poder ser golpeado
         invencible = true;
+        cld.enabled = false; //quitar colision
         yield return new WaitForSeconds(tiempoInvencible);
+
+        //restaurar
         invencible = false;
+        cld.enabled = true;
     }
 
     private IEnumerator serGolpeado()
     {
         golpeado = true;
-        an.SetBool("Daño", true);
-        sr.color = colorHit;
+        an.SetBool("Daño", true); //activar animacion de ser golpeado
+        sr.color = colorHit; //cambiar color de golpe
         rb.gravityScale = .5f;
-        cld.enabled = false;
+
+        //delay del golpe
         yield return new WaitForSeconds(tiempoGolpeado);
         if (golpeado && !atacando) cambiarDireccion(); //voltear si es golpeado
+
+        //restaurar Valores originales
         golpeado = false;
         sr.color = colorOrg;
         rb.gravityScale = 1f;
-        cld.enabled = true;
     }
 
     public void despuesDeGolpear()
     {
-        an.SetBool("Daño", false);
+        an.SetBool("Daño", false); //terminar animacion de ser golpeado
     }
 
     public void Morir(bool check)
     {
-        rb.velocity = Vector2.zero;
-        patruyando = atacando = vigilando = false;
+        rb.velocity = Vector2.zero; //quitar velocidades
+        patruyando = atacando = vigilando = false; // deshabilitar comportamientos
+
+        //Estado de muerte
         puedeMoverse = false;
         muerto = true;
+
+        //deshabilitar animaciones
         an.SetBool("Disparar", false);
         an.SetBool("Caminar", false);
         an.SetBool("Daño", false);
         an.SetBool("Morir", true);
+
+        //Quitar Colisiones para que atraviesen las balas
         rb.gravityScale = 0;
         cld.enabled = false;
     }
 
     public void Destruir()
     {
+        //destruir objeto
         an.SetBool("Morir", false);
         Destroy (gameObject);
     }
 
     public void CurarVida(float cantidad)
     {
+        //efecto Curar NO SE USA AUN
         vidas += cantidad;
-        //efecto Curar
     }
 }

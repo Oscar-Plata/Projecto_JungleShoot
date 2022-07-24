@@ -13,11 +13,8 @@ public class Bala : MonoBehaviour
 
     public float dañoBala = 1.0f;
 
-    //private float instanteVida;
-    //public Rigidbody2D rbChoque;
     public string tagDaño;
 
-    //private float vivo = 0;
     void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -25,48 +22,28 @@ public class Bala : MonoBehaviour
 
     void Start()
     {
-        //instanteVida = Time.deltaTime;
-        //rb.velocity = new Vector2(dirrecion.x * velocidad, dirrecion.y * velocidad);
+        //Mover Bala con fuerza
         rb.AddForce(new Vector2(dirrecion.x * velocidad, dirrecion.y * velocidad), ForceMode2D.Impulse);
-        StartCoroutine(matarBala());
+        StartCoroutine(matarBala()); //Destruir bala por tiempo
     }
 
     public IEnumerator matarBala()
     {
         yield return new WaitForSeconds(tiempoVida);
-
-        //Debug.Log("destroy");
         Destroy (gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D choque)
     {
-        // Debug.Log(choque.tag);
+        //Detectar si choca con un objeto con el tagEspecificado
         if (choque.tag.Equals(tagDaño))
         {
+            //Detectar si el objeto puede ser dañado
             IDaño objeto = choque.GetComponent<IDaño>();
-            if (objeto != null) objeto.RecibirDaño(dañoBala);
-            Destroy (gameObject);
-
-            //Destroy(choque.gameObject);
+            if (objeto != null) objeto.RecibirDaño(dañoBala); //Dañar objeto
+            Destroy (gameObject); //Destruir Bala
             Debug.Log("Quitar vida");
         }
-        else if (choque.tag.Equals("Escenario"))
-        {
-            // Debug.Log("Choque con Escenario"); //detectar colision al escenario
-            Destroy (gameObject);
-        }
-        // switch (choque.tag)
-        // {
-        //     case "Enemigo":
-        //         Debug.Log("Daño a enemigo"); //detectar colision al enemigo
-        //         Destroy (gameObject);
-        //         Destroy(choque.gameObject);
-        //         break;
-        //     case "Escenario":
-        //         Debug.Log("Choque con Escenario"); //detectar colision al escenario
-        //         Destroy (gameObject);
-        //         break;
-        // }
+        else if (choque.tag.Equals("Escenario")) Destroy(gameObject); //Destruir bala al chocar con escenario
     }
 }
