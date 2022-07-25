@@ -7,7 +7,7 @@ public class efectoGhost : MonoBehaviour
     //public GameObject Padre;
     public float tiempoVida;
 
-    public Color color;
+    public Color colorGhost;
 
     private SpriteRenderer sr;
 
@@ -30,7 +30,7 @@ public class efectoGhost : MonoBehaviour
     {
         sr.sprite = srOtro.sprite;
         transform.localScale = trfOtro.localScale;
-        sr.color = color;
+        sr.color = colorGhost;
         StartCoroutine("Fade");
     }
 

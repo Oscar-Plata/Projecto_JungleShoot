@@ -121,7 +121,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public float tiempoGolpeado = .3f;
 
-    public GameObject fant;
+    private GameObject fant;
 
 
 #endregion //cooldown entre ruedos
@@ -206,6 +206,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     */
     public void OnMovimientoX(InputValue iv)
     {
+        if (muerto) return;
         float valor = iv.Get<float>();
         velocidadActual = valor * velocidadMovimiento; //calculo de velocidad actual
         inputAxs.x = valor;
@@ -304,6 +305,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
                 rb.AddForce(Vector2.right * fuerzaRodar, ForceMode2D.Impulse); //añade una fuerza de rodar  derecha al rigidbody
             }
             StartCoroutine("genFantasmas");
+            StartCoroutine("serInvencible", tiempoInvencible + .5f);
             ruedosRestantes--; //Reducir cantidad de ruedos posibles
             tiempoRodarInicio = tiempoJuego; //obtener instante en el tiempo
         }
@@ -316,9 +318,6 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             fant = (GameObject) Instantiate(efectoDash, transform.position, Quaternion.identity);
             fant.GetComponent<efectoGhost>().srOtro = GetComponent<SpriteRenderer>();
             fant.GetComponent<efectoGhost>().trfOtro = this.transform;
-
-            // go.GetComponent<efectoGhost>().srOtro
-            // go.GetComponent<efectoGhost>().trfOtro = this.transform;
             yield return new WaitForSeconds(tiempoGhost);
         }
     }
@@ -352,6 +351,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         vidas = vidasTotales;
         muerto = false;
         ruedosRestantes = ruedosTotal;
+        an.SetBool("morir", false);
     }
 
     public void OnAtacar()
@@ -413,18 +413,12 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         sr.color = colorOrg;
     }
 
-    // private IEnumerator parpadearHit(int veces)
-    // {
-    //     for (int i = 0; i < veces; i++)
-    //     {
-    //         yield return new WaitForSeconds(f);
-    //         sr.color = colorOrg;
-    //     }
-    // }
     public void Morir(bool check)
     {
-        //an.SetBool("Morir", true);
+        an.SetBool("morir", true);
         puedeMoverse = false;
+        rb.velocity = Vector2.zero;
+        rb.AddForce(new Vector2(direccionAnterior * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
         //this.gameObject.SetActive(false);
     }
 

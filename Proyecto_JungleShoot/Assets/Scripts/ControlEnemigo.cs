@@ -40,6 +40,8 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     public DetectarPlayer jugEspalda;
 
+    public Transform ojos;
+
     public LayerMask layerStage; //Capa suelo a ala cual se colisionara
 
     public float radioColision = 0.5f;
@@ -115,7 +117,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     private bool
     DetectarPared() //Detectar si choca con escenario para cambiar de posicion
     {
-        return Physics2D.OverlapCircle(mira.position, radioColision, layerStage);
+        return Physics2D.OverlapCircle(mira.position, -radioColision, layerStage);
     }
 
     private void CambiarEstado() //Cambiar comportamiento al azar
@@ -203,18 +205,17 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     {
         //no poder ser golpeado
         invencible = true;
-        cld.enabled = false; //quitar colision
         yield return new WaitForSeconds(tiempoInvencible);
 
         //restaurar
         invencible = false;
-        cld.enabled = true;
     }
 
     private IEnumerator serGolpeado()
     {
         golpeado = true;
         an.SetBool("Daño", true); //activar animacion de ser golpeado
+        cld.enabled = false; //quitar colision
         sr.color = colorHit; //cambiar color de golpe
         rb.gravityScale = .5f;
 
@@ -225,6 +226,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         //restaurar Valores originales
         golpeado = false;
         sr.color = colorOrg;
+        cld.enabled = true;
         rb.gravityScale = 1f;
     }
 
