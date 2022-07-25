@@ -4,32 +4,40 @@ using UnityEngine;
 
 public class efectoGhost : MonoBehaviour
 {
-    public GameObject Padre;
-
+    //public GameObject Padre;
     public float tiempoVida;
 
     public Color color;
 
     private SpriteRenderer sr;
 
-    private SpriteRenderer srOtro;
+    public SpriteRenderer srOtro;
 
-    private Transform trfOtro;
+    public Transform trfOtro;
 
-    public Animation an;
+    public Animator an;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        an = GetComponent<Animation>();
-        srOtro = Padre.GetComponent<SpriteRenderer>();
-        trfOtro = Padre.GetComponent<Transform>();
+        an = GetComponent<Animator>();
+        // srOtro = Padre.GetComponent<SpriteRenderer>();
+        // trfOtro = Padre.GetComponent<Transform>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         sr.sprite = srOtro.sprite;
+        transform.localScale = trfOtro.localScale;
         sr.color = color;
+        StartCoroutine("Fade");
+    }
+
+    private IEnumerator Fade()
+    {
+        an.SetTrigger("Desvanecer");
+        yield return new WaitForSeconds(tiempoVida);
+        Destroy (gameObject);
     }
 }

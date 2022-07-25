@@ -78,6 +78,10 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public bool puedeRodar = true; //Booloeano que permite rodar denuevo
 
+    public int fantasmas;
+
+    public float tiempoGhost;
+
     [Header("Camara")]
     public float fuerzaTemblor = 10;
 
@@ -116,6 +120,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public Vector2 fuerzaGolpeado;
 
     public float tiempoGolpeado = .3f;
+
+    public GameObject fant;
 
 
 #endregion //cooldown entre ruedos
@@ -297,8 +303,23 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             {
                 rb.AddForce(Vector2.right * fuerzaRodar, ForceMode2D.Impulse); //añade una fuerza de rodar  derecha al rigidbody
             }
+            StartCoroutine("genFantasmas");
             ruedosRestantes--; //Reducir cantidad de ruedos posibles
             tiempoRodarInicio = tiempoJuego; //obtener instante en el tiempo
+        }
+    }
+
+    public IEnumerator genFantasmas()
+    {
+        for (var i = 0; i < fantasmas; i++)
+        {
+            fant = (GameObject) Instantiate(efectoDash, transform.position, Quaternion.identity);
+            fant.GetComponent<efectoGhost>().srOtro = GetComponent<SpriteRenderer>();
+            fant.GetComponent<efectoGhost>().trfOtro = this.transform;
+
+            // go.GetComponent<efectoGhost>().srOtro
+            // go.GetComponent<efectoGhost>().trfOtro = this.transform;
+            yield return new WaitForSeconds(tiempoGhost);
         }
     }
 
