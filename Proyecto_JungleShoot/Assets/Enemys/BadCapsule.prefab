@@ -288,11 +288,12 @@ MonoBehaviour:
   detector: {fileID: 480028387}
   jugFrente: {fileID: 480028388}
   jugEspalda: {fileID: 7147945943829662916}
-  ojos: {fileID: 0}
+  ojos: {fileID: 2999272482951422186}
   layerStage:
     serializedVersion: 2
     m_Bits: 64
   radioColision: 0.5
+  pared: 0
   hayJug: 0
   vigilando: 0
   patruyando: 0

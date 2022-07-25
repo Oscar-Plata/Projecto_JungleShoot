@@ -46,6 +46,8 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     public float radioColision = 0.5f;
 
+    public bool pared;
+
     // public DetectarPlayer balaEspalda;
     public bool hayJug = false;
 
@@ -117,7 +119,8 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     private bool
     DetectarPared() //Detectar si choca con escenario para cambiar de posicion
     {
-        return Physics2D.OverlapCircle(mira.position, -radioColision, layerStage);
+        bool check = Physics2D.OverlapCircle(ojos.position, radioColision, layerStage);
+        return check;
     }
 
     private void CambiarEstado() //Cambiar comportamiento al azar
