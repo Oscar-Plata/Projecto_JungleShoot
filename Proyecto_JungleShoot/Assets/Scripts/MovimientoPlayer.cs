@@ -195,6 +195,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         if (tiempoJuego - tiempoRodarInicio > esperaRodar)
         {
             //restaura las variables para poder rodar denuevo
+            if (ruedosRestantes != ruedosTotal) StartCoroutine("genFantasmas", 1);
             puedeRodar = true;
             ruedosRestantes = ruedosTotal;
             tiempoRodarInicio = 0;
@@ -306,16 +307,16 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             {
                 rb.AddForce(Vector2.right * fuerzaRodar, ForceMode2D.Impulse); //añade una fuerza de rodar  derecha al rigidbody
             }
-            StartCoroutine("genFantasmas");
+            StartCoroutine("genFantasmas", fantasmas);
             StartCoroutine("serInvencible", tiempoInvencible + .5f);
             ruedosRestantes--; //Reducir cantidad de ruedos posibles
             tiempoRodarInicio = tiempoJuego; //obtener instante en el tiempo
         }
     }
 
-    public IEnumerator genFantasmas()
+    public IEnumerator genFantasmas(int cantidad)
     {
-        for (var i = 0; i < fantasmas; i++)
+        for (var i = 0; i < cantidad; i++)
         {
             fant = (GameObject) Instantiate(efectoDash, transform.position, Quaternion.identity);
             fant.GetComponent<efectoGhost>().srOtro = GetComponent<SpriteRenderer>();
