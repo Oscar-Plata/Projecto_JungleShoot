@@ -22,7 +22,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     private SpriteRenderer sr;
 
-    // public ParticleSystem efectoDash;
+    public GameObject efectoDash;
+
     [Header("Movimiento")]
     public Vector2 Velocidades;
 
