@@ -105,6 +105,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public float vidasTotales = 3;
 
+    public float topeVidas;
+
     public bool muerto = false;
 
     public Color colorHit;
@@ -426,6 +428,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     {
         vidas += cantidad;
         if (vidas > vidasTotales) vidasTotales++;
+        if (vidasTotales > topeVidas) vidasTotales = topeVidas;
         //efecto Curar
     }
 }
