@@ -157,3 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcdb764adf73b348a0df741507f5243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tagObtenible: Player
+  puntosVida: 1
+  objetoPS: {fileID: 0}
+  colorPS: {r: 0.8773585, g: 0.43371305, b: 0.43371305, a: 0}

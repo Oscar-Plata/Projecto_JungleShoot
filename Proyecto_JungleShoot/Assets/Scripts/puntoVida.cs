@@ -16,16 +16,20 @@ public class puntoVida : MonoBehaviour, IObjeto
 
     public Color colorPS;
 
+    public GameObject sprite;
+
     void Awake()
     {
-        an = GetComponent<Animator>();
+        an = sprite.GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter(Collider otro)
+    private void OnTriggerEnter2D(Collider2D otro)
     {
+        Debug.Log(otro.tag);
         if (otro.tag.Equals(tagObtenible))
         {
             objeto = otro.GetComponent<IDaño>();
+            Debug.Log (objeto);
             if (objeto != null) Obtener();
         }
     }
@@ -37,10 +41,10 @@ public class puntoVida : MonoBehaviour, IObjeto
 
     public void Obtener()
     {
-        ParticleSystem.MainModule psmain = objetoPS.main;
-        psmain.startColor = colorPS;
+        // ParticleSystem.MainModule psmain = objetoPS.main;
+        // psmain.startColor = colorPS;
         objeto.CurarVida (puntosVida);
-        an.SetTrigger("Tomar");
+        an.SetTrigger("Tomado");
         Destruir(0.5f);
     }
 }
