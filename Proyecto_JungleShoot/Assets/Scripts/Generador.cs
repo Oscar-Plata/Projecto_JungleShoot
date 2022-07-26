@@ -39,8 +39,11 @@ public class Generador : MonoBehaviour
         {
             yield return new WaitForSeconds(.1f); //tiempo de espera entre hordas
             Vector3 posicion = new Vector3(transform.position.x + Random.Range(rangoSpawn.x * -1, rangoSpawn.x), transform.position.y + Random.Range(rangoSpawn.y * -1, rangoSpawn.y), transform.position.z);
-            efectoSpawn.transform.position = posicion;
-            efectoSpawn.Play();
+            if (efectoSpawn != null)
+            {
+                efectoSpawn.transform.position = posicion;
+                efectoSpawn.Play();
+            }
             GameObject go = Instantiate(objetoAGenerar, posicion, Quaternion.identity); //generar objeto en escena
             go.transform.parent = this.transform; //hacer objetos hijos del spawner
         }

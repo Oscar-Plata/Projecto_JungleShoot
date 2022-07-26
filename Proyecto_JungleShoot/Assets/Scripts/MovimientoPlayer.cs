@@ -20,6 +20,10 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public ParticleSystem efectoDust;
 
+    public ParticleSystem efectoCurar;
+
+    public ParticleSystem efetoInvencible;
+
     private SpriteRenderer sr;
 
     public GameObject efectoDash;
@@ -256,7 +260,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * fuerzaSalto * 1.35f, ForceMode2D.Impulse); //añade una fuerza de salto al rigidbody
             }
-            efectoDust.Play();
+            if (efectoDust != null) efectoDust.Play();
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse); //añade una fuerza de salto al rigidbody
             saltosRestantes--; //Disminuye el contador de saltos restantes
@@ -402,8 +406,12 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     private IEnumerator serInvencible(float tiempo)
     {
+        efetoInvencible.Play();
         invencible = true;
         yield return new WaitForSeconds(tiempo);
+
+        //efetoInvencible.Pause();
+        efetoInvencible.Stop();
         invencible = false;
     }
 
@@ -430,6 +438,6 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         vidas += cantidad;
         if (vidas > vidasTotales) vidasTotales++;
         if (vidasTotales > topeVidas) vidasTotales = topeVidas;
-        //efecto Curar
+        if (efectoCurar != null) efectoCurar.Play();
     }
 }
