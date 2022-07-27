@@ -72,6 +72,20 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0
+    functionName: MandarSonido
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 5cca6f7c53e85ce4e91f88345bd96625, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: MandarSonido
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 8155bd09518f0224794bad5e863af619, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.1
     functionName: despuesDeGolpear
     data: 

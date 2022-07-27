@@ -193,7 +193,7 @@ MonoBehaviour:
   tagObtenible: Player
   puntosVida: 1
   objetoPS: {fileID: 2173748304571621083}
-  colorPS: {r: 0.8773585, g: 0.43371305, b: 0.43371305, a: 0}
+  sonidoObtener: {fileID: 8300000, guid: be233a69411a7fe4ebf116f6714c65f1, type: 3}
   sprite: {fileID: 318255674}
 --- !u!1 &4997878570362685759
 GameObject:

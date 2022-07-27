@@ -273,10 +273,11 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         vidas += cantidad;
     }
 
+
 #region Sonido
     public void MandarSonido(AudioClip sonido)
     {
-        soundManager.Instance.PlayEfecto(sonido, Random.Range(0.8f, 1.4f));
+        soundManager.Instance.PlayEfecto(sonido, Random.Range(2f, 2.5f));
     }
 #endregion
 }

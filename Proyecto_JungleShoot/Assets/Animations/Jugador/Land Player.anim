@@ -71,4 +71,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.083333336
+    functionName: MandarSonido
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: b5d5aa5bc6065f346aed39be13cd001d, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.16666667
+    functionName: MandarSonido
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 4b6446fbb2c0f90418696598cc880f4a, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

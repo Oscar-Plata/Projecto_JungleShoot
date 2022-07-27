@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dirrecion: {x: 0, y: 0}
   velocidad: 20
-  tiempoVida: 2
+  tiempoVida: 1.5
   "da\xF1oBala": 1
   "tagDa\xF1o": Enemigo
 --- !u!212 &1222804437129674482

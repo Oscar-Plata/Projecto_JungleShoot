@@ -14,6 +14,8 @@ public class puntoVida : MonoBehaviour, IObjeto
 
     public ParticleSystem objetoPS;
 
+    public AudioClip sonidoObtener;
+
     //public Color colorPS;
     public GameObject sprite;
 
@@ -39,7 +41,8 @@ public class puntoVida : MonoBehaviour, IObjeto
 
     public void Obtener()
     {
-        Debug.Log("play ps");
+        //Debug.Log("play ps");
+        soundManager.Instance.PlayEfecto(sonidoObtener, Random.Range(0.8f, 1.2f));
         objetoPS.Play();
         objeto.CurarVida (puntosVida);
         an.SetTrigger("Tomado");

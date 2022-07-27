@@ -20,6 +20,8 @@ public class GeneradorChunks : MonoBehaviour
 
     public Vector2 offset;
 
+    public AudioClip musicaFondo;
+
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -60,5 +62,6 @@ public class GeneradorChunks : MonoBehaviour
             chunks.Add((GameObject) Instantiate(lista[aux], posChunk.position, Quaternion.identity));
             posChunk.position = new Vector3(posChunk.position.x + offset.x, posChunk.position.y + offset.y, posChunk.position.z);
         }
+        soundManager.Instance.PlayFondo (musicaFondo);
     }
 }

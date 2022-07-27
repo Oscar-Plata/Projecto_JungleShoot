@@ -18,6 +18,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public Disparar dp;
 
+    [Header("Particulas")]
     public ParticleSystem efectoDust;
 
     public ParticleSystem efectoCurar;
@@ -25,6 +26,13 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public ParticleSystem efetoInvencible;
 
     public ParticleSystem efectoHit;
+
+    [Header("Sonidos")]
+    public AudioClip sonidoDash;
+
+    public AudioClip sonidoReload;
+
+    public AudioClip sonidoCurar;
 
     private SpriteRenderer sr;
 
@@ -207,7 +215,11 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         if (tiempoJuego - tiempoRodarInicio > esperaRodar)
         {
             //restaura las variables para poder rodar denuevo
-            if (ruedosRestantes != ruedosTotal) StartCoroutine("genFantasmas", 2);
+            if (ruedosRestantes != ruedosTotal)
+            {
+                StartCoroutine("genFantasmas", 2);
+                soundManager.Instance.PlayEfecto(sonidoReload, 1.0f);
+            }
             puedeRodar = true;
             ruedosRestantes = ruedosTotal;
             tiempoRodarInicio = 0;
@@ -320,6 +332,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
             //Si queda el ultimo ruedo activar limitador de ruedo hasta cumplir tiempo
             if (ruedosRestantes == 1) puedeRodar = false;
+            soundManager.Instance.PlayEfecto(sonidoDash, Random.Range(.8f, 1.6f));
 
             //rodar segun la direccion donde se ve
             if (direccionAnterior == -1)
@@ -490,6 +503,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void CurarVida(float cantidad)
     {
+        soundManager.Instance.PlayEfecto(sonidoCurar, Random.Range(0.8f, 1.6f));
         vidas += cantidad;
         if (vidas > vidasTotales) vidasTotales++;
         if (vidasTotales > topeVidas) vidasTotales = topeVidas;
@@ -507,7 +521,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 #region Sonido
     public void MandarSonido(AudioClip sonido)
     {
-        soundManager.Instance.PlayEfecto(sonido, Random.Range(0.8f, 1.4f));
+        soundManager.Instance.PlayEfecto(sonido, Random.Range(0.8f, 1.2f));
     }
 #endregion
 

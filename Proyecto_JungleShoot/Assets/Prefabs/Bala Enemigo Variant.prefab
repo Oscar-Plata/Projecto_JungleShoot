@@ -73,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1222804437129674483, guid: 3a0a8fbd89313ef4d856678739a46fb2, type: 3}
       propertyPath: tiempoVida
-      value: 1.5
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 1222804437129674495, guid: 3a0a8fbd89313ef4d856678739a46fb2, type: 3}
       propertyPath: m_Name

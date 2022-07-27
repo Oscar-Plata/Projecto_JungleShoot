@@ -266,6 +266,7 @@ MonoBehaviour:
   dispersionBala: 1
   tiempoEntreBalas: 0.1
   dirreccion: {x: 0, y: 0}
+  sonidoShoot: {fileID: 8300000, guid: a12971c72792552468517e3467784a65, type: 3}
 --- !u!114 &3135225606176651094
 MonoBehaviour:
   m_ObjectHideFlags: 0
