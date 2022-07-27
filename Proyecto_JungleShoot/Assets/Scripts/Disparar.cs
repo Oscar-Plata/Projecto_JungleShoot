@@ -29,6 +29,8 @@ public class Disparar : MonoBehaviour
 
     public Vector2 dirreccion;
 
+    public AudioClip sonidoShoot;
+
     public void Disparo()
     {
         an = this.GetComponent<Animator>();
@@ -40,14 +42,12 @@ public class Disparar : MonoBehaviour
         for (int i = 0; i < balasPorDisparo; i++)
         {
             emitir();
+            soundManager.Instance.PlayEfecto(sonidoShoot, Random.Range(0.4f, 1.2f));
             yield return new WaitForSeconds(tiempoEntreBalas);
-
-            // if (this.tag.Equals("Player"))
-            //     an.SetTrigger("disparo");
             if (this.tag.Equals("Enemigo")) an.SetBool("Disparar", true);
             posicion = new Vector3(puntoMira.position.x, puntoMira.position.y + Random.Range(-1 * dispersionBala, dispersionBala), puntoMira.position.z);
             balaGen = (GameObject) Instantiate(Bala, posicion, Quaternion.identity);
-            balaGen.GetComponent<Bala>().dirrecion = dirreccion + new Vector2(0, Random.Range(-1 * dispersionBala, dispersionBala) / 2);
+            balaGen.GetComponent<Bala>().dirrecion = dirreccion + new Vector2(0, Random.Range(-1 * dispersionBala, dispersionBala) / 3);
             balaGen.GetComponent<Bala>().velocidad = velocidad;
         }
     }

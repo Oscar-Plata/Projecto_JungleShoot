@@ -272,4 +272,11 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         //efecto Curar NO SE USA AUN
         vidas += cantidad;
     }
+
+#region Sonido
+    public void MandarSonido(AudioClip sonido)
+    {
+        soundManager.Instance.PlayEfecto(sonido, Random.Range(0.8f, 1.4f));
+    }
+#endregion
 }

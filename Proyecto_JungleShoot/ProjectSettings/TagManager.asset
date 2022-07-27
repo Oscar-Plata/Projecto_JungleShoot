@@ -8,6 +8,7 @@ TagManager:
   - Escenario
   - Bala Enemigo
   - Bala Player
+  - CamaraVirtual
   layers:
   - Default
   - TransparentFX

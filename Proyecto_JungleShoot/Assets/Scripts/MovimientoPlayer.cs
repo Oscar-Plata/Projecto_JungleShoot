@@ -24,6 +24,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public ParticleSystem efetoInvencible;
 
+    public ParticleSystem efectoHit;
+
     private SpriteRenderer sr;
 
     public GameObject efectoDash;
@@ -87,6 +89,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public float tiempoGhost;
 
     [Header("Camara")]
+    public CinemachineVirtualCamera cv;
+
     public float fuerzaTemblor = 10;
 
     public float tiempoTemblor = 0.5f;
@@ -131,11 +135,17 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 #endregion //cooldown entre ruedos
 
 
+
+#region metodosUnity
     private void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
         an = this.GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        cv = GameObject.FindGameObjectWithTag("CamaraVirtual").GetComponent<CinemachineVirtualCamera>();
+
+        //rpVFX = Camera.main.GetComponent<RippleEffect>();
+        cvRuido = cv.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     // Start is called before the first frame update
@@ -203,6 +213,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             tiempoRodarInicio = 0;
         }
     }
+#endregion
+
 
 
 #region Movimiento
@@ -303,14 +315,12 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     {
         if (puedeRodar && puedeMoverse)
         {
-            //Debug.Log("Rodar");
             rodando = true; //activa el indicador que esta rodando para limitar otras accciones
             StartCoroutine(IniciarRodar());
 
             //Si queda el ultimo ruedo activar limitador de ruedo hasta cumplir tiempo
             if (ruedosRestantes == 1) puedeRodar = false;
 
-            // efectoDash.Play();
             //rodar segun la direccion donde se ve
             if (direccionAnterior == -1)
             {
@@ -324,6 +334,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             StartCoroutine("serInvencible", tiempoInvencible + .5f);
             ruedosRestantes--; //Reducir cantidad de ruedos posibles
             tiempoRodarInicio = tiempoJuego; //obtener instante en el tiempo
+            StartCoroutine(AgitarCamara(fuerzaTemblor / 3, tiempoTemblor / 3));
         }
     }
 
@@ -354,6 +365,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 #endregion
 
 
+
+#region Debug
     public void OnReset()
     {
         Debug.Log("Reset Position");
@@ -370,60 +383,61 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         an.SetBool("morir", false);
     }
 
+
+#endregion
+
+
+
+#region atacar
+
     public void OnAtacar()
     {
         if (muerto) return;
         if (!rodando && !atacando)
         {
             atacando = true;
+            StartCoroutine(AgitarCamara(fuerzaTemblor / 5, 0.05f));
             an.SetFloat("miraX", direccionAtaque.x);
             an.SetFloat("miraY", direccionAtaque.y);
-            an.SetTrigger("disparo");
+            if ((enSuelo || enEsquina) && (direccionAtaque.y == -1 && direccionAtaque.x == 0))
+            {
+                direccionAtaque.x = direccionAnterior;
+                direccionAtaque.y = 0;
+                an.SetBool("agacharse", true);
+                an.SetFloat("miraY", 0);
+                an.SetTrigger("disparo");
+                dp.dirreccion = direccionAtaque;
+                direccionAtaque.y = -1;
+                direccionAtaque.x = 0;
+                dp.Disparo();
+                StartCoroutine(cooldownAtaque());
+                return;
+            }
             if (direccionAtaque.x == 0 && direccionAtaque.y == 0)
             {
                 direccionAtaque.x = direccionAnterior;
             }
+
+            an.SetTrigger("disparo");
             dp.dirreccion = direccionAtaque;
 
             dp.Disparo();
             StartCoroutine(cooldownAtaque());
         }
-        // if (!muerto)
-        // {
-        //     float miraY = 0;
-        //     float miraX = direccionAnterior;
-        //     if (inputAxs.y > 0.3) miraY = 1;
-        //     if (inputAxs.y < -0.3) miraY = -1;
-        //     if (inputAxs.y == 1)
-        //     {
-        //         miraY = 1;
-        //         miraX = 0;
-        //     }
-        //     if (inputAxs.y == -1)
-        //     {
-        //         miraY = -1;
-        //         miraX = 0;
-        //     }
-        //     dp.dirreccion = new Vector2(miraX, miraY);
-        //     dp.Disparo();
-        // }
     }
 
     public IEnumerator cooldownAtaque()
     {
         yield return new WaitForSeconds(tiempoAtaque);
         atacando = false;
-        // an.SetFloat("miraX", 0);
-        // an.SetFloat("miraY", 0);
+        an.SetBool("agacharse", false);
     }
+#endregion
 
-    // public IEnumerator cooldownAtaqueAnim()
-    // {
-    //     yield return new WaitForSeconds(tiempoAtaque);
-    //     atacando = false;
-    //     an.SetFloat("miraX", 0);
-    //     an.SetFloat("miraY", 0);
-    // }
+
+
+#region vidaDaño
+
     public void RecibirDaño(float cantidad)
     {
         if (!muerto && !invencible)
@@ -434,8 +448,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(direccionAnterior * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
             StartCoroutine("serInvencible", tiempoInvencible);
-
-            //StartCoroutine("ParpadearHit", 3);
+            StartCoroutine(AgitarCamara());
             if (vidas <= 0)
             {
                 muerto = true;
@@ -455,6 +468,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     private IEnumerator serGolpeado()
     {
+        if (efectoHit != null) efectoHit.Play();
         an.SetBool("hit", true);
         golpeado = true;
         sr.color = colorHit;
@@ -466,6 +480,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void Morir(bool check)
     {
+        StartCoroutine(AgitarCamara(fuerzaTemblor * 2, tiempoTemblor * 1.5f));
         an.SetBool("morir", true);
         puedeMoverse = false;
         rb.velocity = Vector2.zero;
@@ -485,4 +500,37 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     {
         return invencible;
     }
+#endregion
+
+
+
+#region Sonido
+    public void MandarSonido(AudioClip sonido)
+    {
+        soundManager.Instance.PlayEfecto(sonido, Random.Range(0.8f, 1.4f));
+    }
+#endregion
+
+
+
+#region Camara
+
+    private IEnumerator AgitarCamara()
+    {
+        vibrando = true;
+        cvRuido.m_AmplitudeGain = fuerzaTemblor;
+        yield return new WaitForSeconds(tiempoTemblor);
+        cvRuido.m_AmplitudeGain = 0;
+        vibrando = false;
+    }
+
+    private IEnumerator AgitarCamara(float fuerza, float tiempo)
+    {
+        vibrando = true;
+        cvRuido.m_AmplitudeGain = fuerza;
+        yield return new WaitForSeconds(tiempo);
+        cvRuido.m_AmplitudeGain = 0;
+        vibrando = false;
+    }
+#endregion
 }

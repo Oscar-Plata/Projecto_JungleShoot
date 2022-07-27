@@ -24,6 +24,8 @@ public class Generador : MonoBehaviour
 
     public ParticleSystem efectoSpawn;
 
+    public AudioClip sonidoSpawn;
+
     // Update is called once per frame
     void Update()
     {
@@ -44,6 +46,7 @@ public class Generador : MonoBehaviour
                 efectoSpawn.transform.position = posicion;
                 efectoSpawn.Play();
             }
+            soundManager.Instance.PlayEfecto(sonidoSpawn, Random.Range(.4f, 1.2f));
             GameObject go = Instantiate(objetoAGenerar, posicion, Quaternion.identity); //generar objeto en escena
             go.transform.parent = this.transform; //hacer objetos hijos del spawner
         }
