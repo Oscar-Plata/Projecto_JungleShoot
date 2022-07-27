@@ -41,12 +41,13 @@ public class Disparar : MonoBehaviour
         {
             emitir();
             yield return new WaitForSeconds(tiempoEntreBalas);
-            if (this.tag.Equals("Player"))
-                an.SetTrigger("disparo");
-            else if (this.tag.Equals("Enemigo")) an.SetBool("Disparar", true);
+
+            // if (this.tag.Equals("Player"))
+            //     an.SetTrigger("disparo");
+            if (this.tag.Equals("Enemigo")) an.SetBool("Disparar", true);
             posicion = new Vector3(puntoMira.position.x, puntoMira.position.y + Random.Range(-1 * dispersionBala, dispersionBala), puntoMira.position.z);
             balaGen = (GameObject) Instantiate(Bala, posicion, Quaternion.identity);
-            balaGen.GetComponent<Bala>().dirrecion = dirreccion;
+            balaGen.GetComponent<Bala>().dirrecion = dirreccion + new Vector2(0, Random.Range(-1 * dispersionBala, dispersionBala) / 2);
             balaGen.GetComponent<Bala>().velocidad = velocidad;
         }
     }

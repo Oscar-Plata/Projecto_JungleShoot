@@ -10,9 +10,9 @@ public class MenuInicial : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void Salir(){
-    Debug.Log("Salir...");
-    Application.Quit();
-}
-
+    public void Salir()
+    {
+        Debug.Log("Salir...");
+        Application.Quit();
+    }
 }

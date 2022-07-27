@@ -100,9 +100,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public Vector2 direccionAtaque;
 
-    public float tiempoAtaque = 0.2f; //tiempo que dura la animacion de rodar
-
-    public float tiempoAtaqueInicio;
+    public float tiempoAtaque = 0.1f; //tiempo que dura la animacion de rodar
 
     [Header("Vida")]
     public float vidas;
@@ -199,7 +197,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         if (tiempoJuego - tiempoRodarInicio > esperaRodar)
         {
             //restaura las variables para poder rodar denuevo
-            if (ruedosRestantes != ruedosTotal) StartCoroutine("genFantasmas", 1);
+            if (ruedosRestantes != ruedosTotal) StartCoroutine("genFantasmas", 2);
             puedeRodar = true;
             ruedosRestantes = ruedosTotal;
             tiempoRodarInicio = 0;
@@ -215,19 +213,24 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     {
         if (muerto) return;
         float valor = iv.Get<float>();
+        an.SetBool("caminar", true);
         velocidadActual = valor * velocidadMovimiento; //calculo de velocidad actual
         inputAxs.x = valor;
-        an.SetBool("caminar", true);
 
         // Modificar la Escala en x del player para que voltee a un lado u otro
         if (valor < 0)
             direccionAnterior = -1;
         else if (valor > 0) direccionAnterior = 1;
 
+        if (valor < -0.5)
+            direccionAtaque.x = -1;
+        else if (valor > 0.5) direccionAtaque.x = 1;
+
         if (valor == 0)
         {
             transform.localScale = new Vector3(direccionAnterior, transform.localScale.y, transform.localScale.z);
             an.SetBool("caminar", false); //Animacion de caminar
+            direccionAtaque.x = 0;
         }
         else
             transform.localScale = new Vector3(direccionAnterior, transform.localScale.y, transform.localScale.z);
@@ -236,6 +239,12 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public void OnMovimientoY(InputValue iv)
     {
         float valor = iv.Get<float>();
+        if (valor < -0.5)
+            direccionAtaque.y = -1;
+        else if (valor > 0.5)
+            direccionAtaque.y = 1;
+        else
+            direccionAtaque.y = 0;
         inputAxs.y = valor;
     }
 #endregion
@@ -363,27 +372,58 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void OnAtacar()
     {
-        if (!muerto)
+        if (muerto) return;
+        if (!rodando && !atacando)
         {
-            float miraY = 0;
-            float miraX = direccionAnterior;
-            if (inputAxs.y > 0.3) miraY = 1;
-            if (inputAxs.y < -0.3) miraY = -1;
-            if (inputAxs.y == 1)
+            atacando = true;
+            an.SetFloat("miraX", direccionAtaque.x);
+            an.SetFloat("miraY", direccionAtaque.y);
+            an.SetTrigger("disparo");
+            if (direccionAtaque.x == 0 && direccionAtaque.y == 0)
             {
-                miraY = 1;
-                miraX = 0;
+                direccionAtaque.x = direccionAnterior;
             }
-            if (inputAxs.y == -1)
-            {
-                miraY = -1;
-                miraX = 0;
-            }
-            dp.dirreccion = new Vector2(miraX, miraY);
+            dp.dirreccion = direccionAtaque;
+
             dp.Disparo();
+            StartCoroutine(cooldownAtaque());
         }
+        // if (!muerto)
+        // {
+        //     float miraY = 0;
+        //     float miraX = direccionAnterior;
+        //     if (inputAxs.y > 0.3) miraY = 1;
+        //     if (inputAxs.y < -0.3) miraY = -1;
+        //     if (inputAxs.y == 1)
+        //     {
+        //         miraY = 1;
+        //         miraX = 0;
+        //     }
+        //     if (inputAxs.y == -1)
+        //     {
+        //         miraY = -1;
+        //         miraX = 0;
+        //     }
+        //     dp.dirreccion = new Vector2(miraX, miraY);
+        //     dp.Disparo();
+        // }
     }
 
+    public IEnumerator cooldownAtaque()
+    {
+        yield return new WaitForSeconds(tiempoAtaque);
+        atacando = false;
+        // an.SetFloat("miraX", 0);
+        // an.SetFloat("miraY", 0);
+    }
+
+    // public IEnumerator cooldownAtaqueAnim()
+    // {
+    //     yield return new WaitForSeconds(tiempoAtaque);
+    //     atacando = false;
+    //     an.SetFloat("miraX", 0);
+    //     an.SetFloat("miraY", 0);
+    // }
     public void RecibirDaño(float cantidad)
     {
         if (!muerto && !invencible)
@@ -409,19 +449,19 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         efetoInvencible.Play();
         invencible = true;
         yield return new WaitForSeconds(tiempo);
-
-        //efetoInvencible.Pause();
         efetoInvencible.Stop();
         invencible = false;
     }
 
     private IEnumerator serGolpeado()
     {
+        an.SetBool("hit", true);
         golpeado = true;
         sr.color = colorHit;
         yield return new WaitForSeconds(tiempoGolpeado);
         golpeado = false;
         sr.color = colorOrg;
+        an.SetBool("hit", false);
     }
 
     public void Morir(bool check)
@@ -439,5 +479,10 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         if (vidas > vidasTotales) vidasTotales++;
         if (vidasTotales > topeVidas) vidasTotales = topeVidas;
         if (efectoCurar != null) efectoCurar.Play();
+    }
+
+    public bool puedeSerDañado()
+    {
+        return invencible;
     }
 }

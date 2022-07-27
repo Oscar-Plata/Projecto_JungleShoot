@@ -49,7 +49,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     public bool pared;
 
     // public DetectarPlayer balaEspalda;
-    public bool hayJug = false;
+    public bool espalda = false;
 
     [Header("Estado")]
     public bool vigilando; //Estado 0
@@ -103,8 +103,9 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
         //detectar jugador por frente o espalda
         atacando = jugFrente.detectado;
-        hayJug = jugEspalda.detectado;
-        if (hayJug && !atacando || DetectarPared()) cambiarDireccion(); //voltear al player si esta por la espalda
+        espalda = jugEspalda.detectado;
+        if (espalda && !atacando || DetectarPared()) cambiarDireccion(); //voltear al player si esta por la espalda
+        puedeSerDañado();
 
         //Empezar el comportamiento de ataque
         if (atacando && !muerto)
@@ -206,7 +207,6 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     private IEnumerator serInvencible()
     {
-        //no poder ser golpeado
         invencible = true;
         yield return new WaitForSeconds(tiempoInvencible);
 
@@ -214,11 +214,15 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         invencible = false;
     }
 
+    public bool puedeSerDañado()
+    {
+        return !invencible;
+    }
+
     private IEnumerator serGolpeado()
     {
         golpeado = true;
         an.SetBool("Daño", true); //activar animacion de ser golpeado
-        cld.enabled = false; //quitar colision
         sr.color = colorHit; //cambiar color de golpe
         rb.gravityScale = .5f;
 
@@ -229,7 +233,6 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         //restaurar Valores originales
         golpeado = false;
         sr.color = colorOrg;
-        cld.enabled = true;
         rb.gravityScale = 1f;
     }
 
@@ -252,14 +255,13 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         an.SetBool("Caminar", false);
         an.SetBool("Daño", false);
         an.SetBool("Morir", true);
-
-        //Quitar Colisiones para que atraviesen las balas
         rb.gravityScale = 0;
         cld.enabled = false;
     }
 
     public void Destruir()
     {
+        //dropear
         //destruir objeto
         an.SetBool("Morir", false);
         Destroy (gameObject);

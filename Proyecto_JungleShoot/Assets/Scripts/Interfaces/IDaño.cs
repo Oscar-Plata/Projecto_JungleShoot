@@ -6,4 +6,5 @@ public interface IDaño
     void Morir(bool check);
 
     void CurarVida(float cantidad);
+    bool puedeSerDañado();
 }

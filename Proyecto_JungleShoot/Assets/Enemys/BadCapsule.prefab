@@ -282,7 +282,7 @@ MonoBehaviour:
   Velocidades: {x: 0, y: 0, z: 0}
   direccion: 0
   velocidadMovimiento: 4.5
-  puedeMoverse: 0
+  puedeMoverse: 1
   tiempoEspera: 3
   tiempoDisparo: 1.2
   detector: {fileID: 480028387}
@@ -294,7 +294,7 @@ MonoBehaviour:
     m_Bits: 64
   radioColision: 0.5
   pared: 0
-  hayJug: 0
+  espalda: 0
   vigilando: 0
   patruyando: 0
   atacando: 0

@@ -40,9 +40,11 @@ public class Bala : MonoBehaviour
         {
             //Detectar si el objeto puede ser dañado
             IDaño objeto = choque.GetComponent<IDaño>();
-            if (objeto != null) objeto.RecibirDaño(dañoBala); //Dañar objeto
-            Destroy (gameObject); //Destruir Bala
-            Debug.Log("Quitar vida");
+            if (objeto != null)
+            {
+                if (objeto.puedeSerDañado()) Destroy(gameObject); //Destruir Bala
+                objeto.RecibirDaño (dañoBala); //Dañar objeto
+            }
         }
         else if (choque.tag.Equals("Escenario")) Destroy(gameObject); //Destruir bala al chocar con escenario
     }
