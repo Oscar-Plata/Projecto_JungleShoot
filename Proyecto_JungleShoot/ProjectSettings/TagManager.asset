@@ -9,6 +9,7 @@ TagManager:
   - Bala Enemigo
   - Bala Player
   - CamaraVirtual
+  - Objeto
   layers:
   - Default
   - TransparentFX
