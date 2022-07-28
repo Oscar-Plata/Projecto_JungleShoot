@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,11 +18,20 @@ public class VidasUI : MonoBehaviour
 
     public MovimientoPlayer scriptPlayer;
 
+    public int countinues;
+
+    public int score;
+
+    public TextMeshProUGUI scoreTXT;
+
+    public TextMeshProUGUI contTXT;
+
     private void Awake()
     {
         scriptPlayer = GetComponent<MovimientoPlayer>();
         scriptPlayer.topeVidas = vidas.Length;
         vidaMaxima = (int) scriptPlayer.vidasTotales;
+        countinues = scriptPlayer.continues;
     }
 
     // Update is called once per frame
@@ -29,6 +39,8 @@ public class VidasUI : MonoBehaviour
     {
         vidaActual = (int) scriptPlayer.vidas;
         vidaMaxima = (int) scriptPlayer.vidasTotales;
+        countinues = scriptPlayer.continues;
+        contTXT.text = countinues.ToString();
         if (vidaActual > vidaMaxima)
         {
             vidaActual = vidaMaxima;

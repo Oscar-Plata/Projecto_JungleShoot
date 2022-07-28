@@ -123,7 +123,7 @@ MonoBehaviour:
   listaItems:
   - {fileID: 3554777812891374204, guid: d919f87fe2397e04daf051d2d862c0b7, type: 3}
   porcentajeDrop: 1
-  cantidadItems: 2
+  cantidadItems: 1
   posicion: {fileID: 166841739087522734}
   efectoDrop: {fileID: 166841740021277094}
 --- !u!95 &166841739087522733

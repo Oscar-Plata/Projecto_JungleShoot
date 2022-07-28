@@ -139,6 +139,10 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     private GameObject fant;
 
+    public int continues = 3;
+
+    public float tiempoRespawn = 3.5f;
+
 
 #endregion //cooldown entre ruedos
 
@@ -394,6 +398,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         muerto = false;
         ruedosRestantes = ruedosTotal;
         an.SetBool("morir", false);
+        continues = 3;
     }
 
 
@@ -498,7 +503,16 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         puedeMoverse = false;
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(direccionAnterior * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
-        //this.gameObject.SetActive(false);
+        continues--;
+        if (continues > 0)
+        {
+            StartCoroutine(Respawn());
+        }
+        else
+        {
+            Debug.Log("GAMEOVER");
+            //cambiar de escena
+        }
     }
 
     public void CurarVida(float cantidad)
@@ -506,13 +520,33 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         soundManager.Instance.PlayEfecto(sonidoCurar, Random.Range(0.8f, 1.6f));
         vidas += cantidad;
         if (vidas > vidasTotales) vidasTotales++;
-        if (vidasTotales > topeVidas) vidasTotales = topeVidas;
+        if (vidas >= topeVidas) vidas = topeVidas;
+        if (vidasTotales >= topeVidas) vidasTotales = topeVidas;
         if (efectoCurar != null) efectoCurar.Play();
     }
 
     public bool puedeSerDañado()
     {
         return invencible;
+    }
+
+    public IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(tiempoRespawn);
+        Transiciones.Instance.activarTrnasicion();
+        yield return new WaitForSeconds(0.2f);
+        this.transform.position = new Vector3(0, 4, 0);
+        rb.velocity = new Vector2(0, 0);
+        rodando = false;
+        enSuelo = true;
+        saltosRestantes = saltosExtra;
+        puedeRodar = true;
+        puedeMoverse = true;
+        vidas = vidasTotales;
+        efectoCurar.Play();
+        muerto = false;
+        ruedosRestantes = ruedosTotal;
+        an.SetBool("morir", false);
     }
 #endregion
 

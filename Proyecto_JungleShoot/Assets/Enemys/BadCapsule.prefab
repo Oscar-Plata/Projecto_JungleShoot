@@ -263,7 +263,7 @@ MonoBehaviour:
   Bala: {fileID: 7815631376643463825, guid: deb27ab9a3d76cf40883557de0a9c451, type: 3}
   balasPorDisparo: 2
   velocidad: 20
-  dispersionBala: 1
+  dispersionBala: 0.75
   tiempoEntreBalas: 0.1
   dirreccion: {x: 0, y: 0}
   sonidoShoot: {fileID: 8300000, guid: a12971c72792552468517e3467784a65, type: 3}
@@ -282,10 +282,10 @@ MonoBehaviour:
   mira: {fileID: 5601681189905860147}
   Velocidades: {x: 0, y: 0, z: 0}
   direccion: 0
-  velocidadMovimiento: 4.5
+  velocidadMovimiento: 6
   puedeMoverse: 1
-  tiempoEspera: 3
-  tiempoDisparo: 1.2
+  tiempoEspera: 3.2
+  tiempoDisparo: 0.8
   detector: {fileID: 480028387}
   jugFrente: {fileID: 480028388}
   jugEspalda: {fileID: 7147945943829662916}
