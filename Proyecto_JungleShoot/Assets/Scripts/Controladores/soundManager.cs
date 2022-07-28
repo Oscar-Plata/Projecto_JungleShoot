@@ -6,7 +6,7 @@ public class soundManager : MonoBehaviour
     public static soundManager Instance;
 
     [SerializeField]
-    AudioSource[] AS; //0: Fondo, 1: Efectos
+    AudioSource[] AS; //0: Fondo, 1: EfectosPlayer, 2: EfectosEnemigo
 
     private void Awake()
     {
@@ -34,5 +34,17 @@ public class soundManager : MonoBehaviour
         AS[1].clip = sonido;
         AS[1].pitch = distorsion;
         AS[1].PlayOneShot(sonido);
+    }
+
+    public void PlayEnemigo(AudioClip sonido, float distorsion)
+    {
+        AS[2].clip = sonido;
+        AS[2].pitch = distorsion;
+        AS[2].PlayOneShot(sonido);
+    }
+
+    public void StopFondo()
+    {
+        AS[0].Stop();
     }
 }

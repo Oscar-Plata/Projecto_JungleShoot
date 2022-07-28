@@ -49,6 +49,7 @@ public class Disparar : MonoBehaviour
             balaGen = (GameObject) Instantiate(Bala, posicion, Quaternion.identity);
             balaGen.GetComponent<Bala>().dirrecion = dirreccion + new Vector2(0, Random.Range(-1 * dispersionBala, dispersionBala) / 3);
             balaGen.GetComponent<Bala>().velocidad = velocidad;
+            balaGen.GetComponent<Bala>().shooterTag = this.tag;
         }
     }
 

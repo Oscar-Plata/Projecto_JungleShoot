@@ -10,6 +10,8 @@ using UnityEngine;
 */
 public class Generador : MonoBehaviour
 {
+    public bool activadorMaster;
+
     public bool activador; //booleano activador del generador
 
     public Vector2 rangoSpawn; //Cuadrado en el que puede generar objetos
@@ -26,10 +28,15 @@ public class Generador : MonoBehaviour
 
     public AudioClip sonidoSpawn;
 
+    private void Start()
+    {
+        activadorMaster = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (activador) StartCoroutine(Spawnear()); //Llamda a corrutina para spawnear si esta activado
+        if (activador && activadorMaster) StartCoroutine(Spawnear()); //Llamda a corrutina para spawnear si esta activado
     }
 
     private IEnumerator Spawnear()

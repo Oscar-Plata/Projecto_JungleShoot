@@ -262,7 +262,6 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     public void Destruir()
     {
         //dropear
-        //destruir objeto
         an.SetBool("Morir", false);
         Destroy (gameObject);
     }
@@ -277,7 +276,16 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 #region Sonido
     public void MandarSonido(AudioClip sonido)
     {
-        soundManager.Instance.PlayEfecto(sonido, Random.Range(2f, 2.5f));
+        soundManager.Instance.PlayEnemigo(sonido, Random.Range(2f, 2.5f));
     }
 #endregion
+
+
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        Morir(true);
+    }
 }
