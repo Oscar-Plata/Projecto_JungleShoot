@@ -7,7 +7,7 @@ public class MenuInicial : MonoBehaviour
 {
     public void Jugar()
     {
-        Transiciones.Instance.activarTrnasicion();
+        //Transiciones.Instance.activarTrnasicion();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
