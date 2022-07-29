@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 8291307196004177147}
   - component: {fileID: 1747138984144821291}
   - component: {fileID: 3135225606176651094}
+  - component: {fileID: 787230148127006421}
   m_Layer: 8
   m_Name: BadCapsule
   m_TagString: Enemigo
@@ -308,6 +309,24 @@ MonoBehaviour:
   tiempoInvencible: 0.4
   fuerzaGolpeado: {x: 6, y: 3}
   tiempoGolpeado: 0.3
+--- !u!114 &787230148127006421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104621697051986026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d578ed7fd4e9348a0d7b4a3d03cd69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listaItems:
+  - {fileID: 3554777812891374204, guid: d919f87fe2397e04daf051d2d862c0b7, type: 3}
+  porcentajeDrop: 0.2
+  cantidadItems: 1
+  posicion: {fileID: 6412800383367469779}
+  efectoDrop: {fileID: 3991581507504392412, guid: e3f38533cd78a754782145500db861e4, type: 3}
 --- !u!1 &2323991750033933540
 GameObject:
   m_ObjectHideFlags: 0

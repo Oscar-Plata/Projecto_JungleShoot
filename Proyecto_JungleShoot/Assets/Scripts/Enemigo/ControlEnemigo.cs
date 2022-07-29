@@ -17,6 +17,8 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     public Transform mira;
 
+    private DropItems dpi;
+
     [Header("Movimiento")]
     public Vector3 Velocidades;
 
@@ -257,6 +259,9 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         an.SetBool("Morir", true);
         rb.gravityScale = 0;
         cld.enabled = false;
+
+        //dropItem
+        dpi.Dropear();
     }
 
     public void Destruir()
