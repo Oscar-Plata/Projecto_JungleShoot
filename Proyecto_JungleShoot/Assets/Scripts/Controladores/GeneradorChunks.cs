@@ -8,6 +8,8 @@ public class GeneradorChunks : MonoBehaviour
 
     public GameObject[] lista;
 
+    public GameObject ChunkFinal;
+
     public int cantidadChunks;
 
     public string semilla = "";
@@ -62,6 +64,7 @@ public class GeneradorChunks : MonoBehaviour
             chunks.Add((GameObject) Instantiate(lista[aux], posChunk.position, Quaternion.identity));
             posChunk.position = new Vector3(posChunk.position.x + offset.x, posChunk.position.y + offset.y, posChunk.position.z);
         }
+        chunks.Add((GameObject) Instantiate(ChunkFinal, posChunk.position, Quaternion.identity));
         soundManager.Instance.PlayFondo (musicaFondo);
         ShakeManager.Instance.enJuego = true;
     }

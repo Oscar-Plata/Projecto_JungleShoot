@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 // using Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MovimientoPlayer : MonoBehaviour, IDaño
 {
@@ -17,6 +19,10 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public Vector2 inputAxs;
 
     public Disparar dp;
+
+    public Canvas GameOver;
+
+    public GameObject SalirGAMEOVER;
 
     [Header("Particulas")]
     public ParticleSystem efectoDust;
@@ -33,6 +39,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public AudioClip sonidoReload;
 
     public AudioClip sonidoCurar;
+
+    public AudioClip sonidoGameOver;
 
     private SpriteRenderer sr;
 
@@ -152,6 +160,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         rb = this.GetComponent<Rigidbody2D>();
         an = this.GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        GameOver.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -518,7 +527,14 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         else
         {
             Debug.Log("GAMEOVER");
-            //cambiar de escena
+
+            Time.timeScale = 0;
+            soundManager.Instance.PausarSonidos();
+            soundManager.Instance.PlayEfecto(sonidoGameOver, 1);
+
+            var eventSystem = EventSystem.current;
+            eventSystem.SetSelectedGameObject(SalirGAMEOVER, new BaseEventData(eventSystem));
+            GameOver.gameObject.SetActive(true);
         }
     }
 
