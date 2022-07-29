@@ -152,8 +152,6 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         rb = this.GetComponent<Rigidbody2D>();
         an = this.GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-        //cv = GameObject.FindGameObjectWithTag("CamaraVirtual").GetComponent<CinemachineVirtualCamera>();
-        // cvRuido = cv.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     // Start is called before the first frame update
@@ -562,25 +560,4 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         soundManager.Instance.PlayEfecto(sonido, Random.Range(0.8f, 1.2f));
     }
 #endregion
-
-    // #region Camara
-
-    //     private IEnumerator AgitarCamara()
-    //     {
-    //         vibrando = true;
-    //         cvRuido.m_AmplitudeGain = fuerzaTemblor;
-    //         yield return new WaitForSeconds(tiempoTemblor);
-    //         cvRuido.m_AmplitudeGain = 0;
-    //         vibrando = false;
-    //     }
-
-    //     private IEnumerator AgitarCamara(float fuerza, float tiempo)
-    //     {
-    //         vibrando = true;
-    //         cvRuido.m_AmplitudeGain = fuerza;
-    //         yield return new WaitForSeconds(tiempo);
-    //         cvRuido.m_AmplitudeGain = 0;
-    //         vibrando = false;
-    //     }
-    // #endregion
 }

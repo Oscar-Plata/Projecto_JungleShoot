@@ -32,7 +32,7 @@ public class VidasUI : MonoBehaviour
         scriptPlayer.topeVidas = vidas.Length;
         vidaMaxima = (int) scriptPlayer.vidasTotales;
         countinues = scriptPlayer.continues;
-        scoreTXT.text = "Score: 00000";
+        scoreTXT.text = "Score:  0000000";
     }
 
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class VidasUI : MonoBehaviour
         vidaMaxima = (int) scriptPlayer.vidasTotales;
         countinues = scriptPlayer.continues;
         contTXT.text = countinues.ToString();
-        scoreTXT.text = "Score:" + ScoreManager.Instance.score.ToString("00000");
+        scoreTXT.text = "Score:  " + ScoreManager.Instance.score.ToString("0000000");
         if (vidaActual > vidaMaxima)
         {
             vidaActual = vidaMaxima;

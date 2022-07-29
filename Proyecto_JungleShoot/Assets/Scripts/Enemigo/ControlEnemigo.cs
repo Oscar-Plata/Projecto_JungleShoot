@@ -294,6 +294,6 @@ public class ControlEnemigo : MonoBehaviour, IDaño
     /// </summary>
     void OnDisable()
     {
-        Morir(true);
+        // Morir(true);
     }
 }
