@@ -10243,6 +10243,10 @@ PrefabInstance:
       propertyPath: cantidad
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
+      propertyPath: tiempoSpawn
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1671845867780226276, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -10572,7 +10576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: tiempoSpawn
-      value: 6
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: cantidadFija
