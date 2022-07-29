@@ -4868,6 +4868,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 277451663236858692}
     m_Modifications:
+    - target: {fileID: 1344759081456831637, guid: 9f634298a860844498998d648af96ad3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1344759081456831637, guid: 9f634298a860844498998d648af96ad3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.66
+      objectReference: {fileID: 0}
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: tiempoSpawn
       value: 10
@@ -4878,11 +4886,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: rangoSpawn.x
-      value: 1
+      value: 8.55
       objectReference: {fileID: 0}
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: rangoSpawn.y
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1671845867780226276, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: m_RootOrder
