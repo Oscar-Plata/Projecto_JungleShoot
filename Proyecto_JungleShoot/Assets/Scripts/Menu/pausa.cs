@@ -57,6 +57,7 @@ public class pausa : MonoBehaviour
     {
         DeactivateMenu();
         ShakeManager.Instance.enJuego = false;
+        ScoreManager.Instance.erase();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 

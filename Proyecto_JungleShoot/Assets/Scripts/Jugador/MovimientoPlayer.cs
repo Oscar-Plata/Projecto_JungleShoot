@@ -191,6 +191,11 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         if (!enSuelo && !enEsquina) an.SetBool("enSuelo", false);
 
         Velocidades = rb.velocity;
+        if (transform.position.y < -15f)
+        {
+            muerto = true;
+            Morir(true);
+        }
     }
 
     private void FixedUpdate()
