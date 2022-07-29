@@ -89,6 +89,7 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         jugFrente = detector.GetComponent<DetectarPlayer>();
         sr = GetComponent<SpriteRenderer>();
         cld = gameObject.GetComponent<CapsuleCollider2D>();
+        dpi = GetComponent<DropItems>();
     }
 
     void Start()

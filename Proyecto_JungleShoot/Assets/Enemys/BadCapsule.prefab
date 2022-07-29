@@ -323,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listaItems:
   - {fileID: 3554777812891374204, guid: d919f87fe2397e04daf051d2d862c0b7, type: 3}
-  porcentajeDrop: 0.2
+  porcentajeDrop: 0.15
   cantidadItems: 1
   posicion: {fileID: 6412800383367469779}
   efectoDrop: {fileID: 3991581507504392412, guid: e3f38533cd78a754782145500db861e4, type: 3}
