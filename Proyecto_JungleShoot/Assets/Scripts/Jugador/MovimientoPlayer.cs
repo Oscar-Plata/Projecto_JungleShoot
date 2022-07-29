@@ -508,7 +508,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         an.SetBool("morir", true);
         puedeMoverse = false;
         rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(direccionAnterior * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
+
+        //rb.gravityScale = 0;
         continues--;
         if (continues > 0)
         {
@@ -554,6 +555,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         muerto = false;
         ruedosRestantes = ruedosTotal;
         an.SetBool("morir", false);
+        rb.gravityScale = 1;
     }
 #endregion
 
