@@ -120,6 +120,11 @@ public class ControlEnemigo : MonoBehaviour, IDaño
             StartCoroutine("DispararAPlayer");
         }
         Velocidades = rb.velocity; //ver velocidades en el inspector
+        if (transform.position.y < -15f)
+        {
+            muerto = true;
+            Morir(true);
+        }
     }
 
     private bool

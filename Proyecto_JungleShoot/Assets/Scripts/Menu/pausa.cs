@@ -58,6 +58,7 @@ public class pausa : MonoBehaviour
         DeactivateMenu();
         ShakeManager.Instance.enJuego = false;
         ScoreManager.Instance.erase();
+        soundManager.Instance.StopFondo();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
@@ -66,7 +67,8 @@ public class pausa : MonoBehaviour
         if (playerScript != null) playerScript.pausaPlayer = true; //Que el input mientras esta en pausa no afecte al player
         soundManager.Instance.PausarSonidos(); //pausar Musica
         Time.timeScale = 0;
-        AudioListener.pause = true;
+
+        //AudioListener.pause = true;
         pauseUI.SetActive(true);
     }
 
@@ -75,7 +77,8 @@ public class pausa : MonoBehaviour
         if (playerScript != null) playerScript.pausaPlayer = false; //Que el input mientras esta en pausa no afecte al player
         soundManager.Instance.ReanudarSonidos(); //Reanudar Musica
         Time.timeScale = 1;
-        AudioListener.pause = false;
+
+        //AudioListener.pause = false;
         pauseUI.SetActive(false);
         isPaused = false;
     }

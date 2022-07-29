@@ -6,7 +6,7 @@ public class soundManager : MonoBehaviour
     public static soundManager Instance;
 
     [SerializeField]
-    AudioSource[] AS; //0: Fondo, 1: EfectosPlayer, 2: EfectosEnemigo
+    AudioSource[] AS; //0: Fondo, 1: EfectosPlayer, 2: EfectosEnemigo, 3:UI
 
     private void Awake()
     {
@@ -60,5 +60,11 @@ public class soundManager : MonoBehaviour
         AS[0].UnPause();
         AS[1].UnPause();
         AS[2].UnPause();
+    }
+
+    public void PlayUI(AudioClip sonido)
+    {
+        AS[3].clip = sonido;
+        AS[3].Play();
     }
 }
