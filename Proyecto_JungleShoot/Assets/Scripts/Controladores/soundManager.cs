@@ -47,4 +47,18 @@ public class soundManager : MonoBehaviour
     {
         AS[0].Stop();
     }
+
+    public void PausarSonidos()
+    {
+        AS[0].Pause();
+        AS[1].Pause();
+        AS[2].Pause();
+    }
+
+    public void ReanudarSonidos()
+    {
+        AS[0].UnPause();
+        AS[1].UnPause();
+        AS[2].UnPause();
+    }
 }

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
+// using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -96,17 +96,12 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public float tiempoGhost;
 
-    [Header("Camara")]
-    public CinemachineVirtualCamera cv;
-
-    public float fuerzaTemblor = 10;
-
-    public float tiempoTemblor = 0.5f;
-
-    public bool vibrando;
-
-    CinemachineBasicMultiChannelPerlin cvRuido;
-
+    // [Header("Camara")]
+    // public CinemachineVirtualCamera cv;
+    // public float fuerzaTemblor = 10;
+    // public float tiempoTemblor = 0.5f;
+    // public bool vibrando;
+    // CinemachineBasicMultiChannelPerlin cvRuido;
     [Header("Ataque")]
     public bool atacando = false;
 
@@ -143,6 +138,9 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public float tiempoRespawn = 3.5f;
 
+    [Header("pausa")]
+    public bool pausaPlayer;
+
 
 #endregion //cooldown entre ruedos
 
@@ -154,15 +152,14 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         rb = this.GetComponent<Rigidbody2D>();
         an = this.GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-        cv = GameObject.FindGameObjectWithTag("CamaraVirtual").GetComponent<CinemachineVirtualCamera>();
-
-        //rpVFX = Camera.main.GetComponent<RippleEffect>();
-        cvRuido = cv.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        //cv = GameObject.FindGameObjectWithTag("CamaraVirtual").GetComponent<CinemachineVirtualCamera>();
+        // cvRuido = cv.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        pausaPlayer = false;
         colorOrg = sr.color;
         saltosRestantes = saltosExtra;
         tiempoJuego = 0;
@@ -176,7 +173,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     void Update()
     {
         if (!muerto) puedeMoverse = true;
-        if (!puedeMoverse) return;
+        if (!puedeMoverse || pausaPlayer) return;
 
         //Movimiento
         if (!rodando && !golpeado) rb.velocity = new Vector2(velocidadActual, rb.velocity.y);
@@ -200,6 +197,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     private void FixedUpdate()
     {
+        if (pausaPlayer) return;
+
         //Calcula el tiempo del jugador en pantalla
         tiempoJuego += Time.deltaTime;
 
@@ -239,7 +238,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     */
     public void OnMovimientoX(InputValue iv)
     {
-        if (muerto) return;
+        if (muerto || pausaPlayer) return;
         float valor = iv.Get<float>();
         an.SetBool("caminar", true);
         velocidadActual = valor * velocidadMovimiento; //calculo de velocidad actual
@@ -266,6 +265,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void OnMovimientoY(InputValue iv)
     {
+        if (pausaPlayer) return;
         float valor = iv.Get<float>();
         if (valor < -0.5)
             direccionAtaque.y = -1;
@@ -285,6 +285,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     */
     public void OnSaltar()
     {
+        if (pausaPlayer) return;
+
         //verifica que pueda saltar y tenga saltos disponibles
         if (saltosRestantes > 0 && puedeMoverse)
         {
@@ -329,6 +331,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 #region Rodar/Dash
     public void OnRodar()
     {
+        if (pausaPlayer) return;
         if (puedeRodar && puedeMoverse)
         {
             rodando = true; //activa el indicador que esta rodando para limitar otras accciones
@@ -351,7 +354,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             StartCoroutine("serInvencible", tiempoInvencible + .5f);
             ruedosRestantes--; //Reducir cantidad de ruedos posibles
             tiempoRodarInicio = tiempoJuego; //obtener instante en el tiempo
-            StartCoroutine(AgitarCamara(fuerzaTemblor / 3, tiempoTemblor / 3));
+            ShakeManager.Instance.agitarCamara(3f, 0.1f);
         }
     }
 
@@ -386,6 +389,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 #region Debug
     public void OnReset()
     {
+        if (pausaPlayer) return;
         Debug.Log("Reset Position");
         this.transform.position = new Vector3(-1, 1, 0);
         rb.velocity = new Vector2(0, 0);
@@ -410,11 +414,11 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void OnAtacar()
     {
-        if (muerto) return;
+        if (muerto || pausaPlayer) return;
         if (!rodando && !atacando)
         {
             atacando = true;
-            StartCoroutine(AgitarCamara(fuerzaTemblor / 5, 0.05f));
+            ShakeManager.Instance.agitarCamara(0.05f, 0.05f);
             an.SetFloat("miraX", direccionAtaque.x);
             an.SetFloat("miraY", direccionAtaque.y);
             if ((enSuelo || enEsquina) && (direccionAtaque.y == -1 && direccionAtaque.x == 0))
@@ -466,7 +470,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(direccionAnterior * -1 * fuerzaGolpeado.x, fuerzaGolpeado.y), ForceMode2D.Impulse);
             StartCoroutine("serInvencible", tiempoInvencible);
-            StartCoroutine(AgitarCamara());
+            ShakeManager.Instance.agitarCamara();
             if (vidas <= 0)
             {
                 muerto = true;
@@ -498,7 +502,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void Morir(bool check)
     {
-        StartCoroutine(AgitarCamara(fuerzaTemblor * 2, tiempoTemblor * 1.5f));
+        ShakeManager.Instance.agitarCamara(20, 2.0f);
         an.SetBool("morir", true);
         puedeMoverse = false;
         rb.velocity = Vector2.zero;
@@ -533,8 +537,9 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     public IEnumerator Respawn()
     {
         yield return new WaitForSeconds(tiempoRespawn);
-        Transiciones.Instance.activarTrnasicion();
-        yield return new WaitForSeconds(0.2f);
+
+        //Transiciones.Instance.activarTrnasicion();
+        yield return new WaitForSeconds(1.0f);
         this.transform.position = new Vector3(0, 4, 0);
         rb.velocity = new Vector2(0, 0);
         rodando = false;
@@ -559,26 +564,24 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     }
 #endregion
 
+    // #region Camara
 
+    //     private IEnumerator AgitarCamara()
+    //     {
+    //         vibrando = true;
+    //         cvRuido.m_AmplitudeGain = fuerzaTemblor;
+    //         yield return new WaitForSeconds(tiempoTemblor);
+    //         cvRuido.m_AmplitudeGain = 0;
+    //         vibrando = false;
+    //     }
 
-#region Camara
-
-    private IEnumerator AgitarCamara()
-    {
-        vibrando = true;
-        cvRuido.m_AmplitudeGain = fuerzaTemblor;
-        yield return new WaitForSeconds(tiempoTemblor);
-        cvRuido.m_AmplitudeGain = 0;
-        vibrando = false;
-    }
-
-    private IEnumerator AgitarCamara(float fuerza, float tiempo)
-    {
-        vibrando = true;
-        cvRuido.m_AmplitudeGain = fuerza;
-        yield return new WaitForSeconds(tiempo);
-        cvRuido.m_AmplitudeGain = 0;
-        vibrando = false;
-    }
-#endregion
+    //     private IEnumerator AgitarCamara(float fuerza, float tiempo)
+    //     {
+    //         vibrando = true;
+    //         cvRuido.m_AmplitudeGain = fuerza;
+    //         yield return new WaitForSeconds(tiempo);
+    //         cvRuido.m_AmplitudeGain = 0;
+    //         vibrando = false;
+    //     }
+    // #endregion
 }

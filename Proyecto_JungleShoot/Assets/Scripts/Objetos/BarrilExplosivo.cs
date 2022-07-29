@@ -64,6 +64,7 @@ public class BarrilExplosivo : MonoBehaviour, IDaño
     {
         an.SetBool("Explotar", true);
         if (efectoExplosion != null) efectoExplosion.Play();
+        ShakeManager.Instance.agitarCamara(15.0f, 1.0f);
         soundManager.Instance.PlayEfecto(sonidoRoto, Random.Range(.8f, 1.2f));
     }
 
