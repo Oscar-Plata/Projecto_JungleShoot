@@ -110,6 +110,7 @@ MonoBehaviour:
   tiempoHit: 0.1
   dpi: {fileID: 1671845867780226277}
   colorHit: {r: 1, g: 0.1310676, b: 0, a: 1}
+  score: 0
 --- !u!114 &1671845867780226277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 403667789256581580, guid: 00232a4f7c974aa4581ff93705694adb, type: 3}
       propertyPath: rangoSpawn.x
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 403667789256581580, guid: 00232a4f7c974aa4581ff93705694adb, type: 3}
       propertyPath: rangoSpawn.y
