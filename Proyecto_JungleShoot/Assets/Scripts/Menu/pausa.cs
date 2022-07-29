@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,8 @@ public class pausa : MonoBehaviour
     private bool isPaused;
 
     public MovimientoPlayer playerScript;
+
+    public GameObject boton;
 
     void Awake()
     {
@@ -56,9 +59,11 @@ public class pausa : MonoBehaviour
     public void Salir()
     {
         DeactivateMenu();
+        Time.timeScale = 1;
         ShakeManager.Instance.enJuego = false;
         ScoreManager.Instance.erase();
         soundManager.Instance.StopFondo();
+        Transiciones.Instance.activarTrnasicion();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
@@ -70,6 +75,8 @@ public class pausa : MonoBehaviour
 
         //AudioListener.pause = true;
         pauseUI.SetActive(true);
+        var eventSystem = EventSystem.current;
+        eventSystem.SetSelectedGameObject(boton, new BaseEventData(eventSystem));
     }
 
     public void DeactivateMenu()

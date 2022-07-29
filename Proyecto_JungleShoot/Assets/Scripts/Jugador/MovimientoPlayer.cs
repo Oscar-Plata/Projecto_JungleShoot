@@ -527,15 +527,20 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
         else
         {
             Debug.Log("GAMEOVER");
-
-            Time.timeScale = 0;
-            soundManager.Instance.PausarSonidos();
-            soundManager.Instance.PlayEfecto(sonidoGameOver, 1);
-
-            var eventSystem = EventSystem.current;
-            eventSystem.SetSelectedGameObject(SalirGAMEOVER, new BaseEventData(eventSystem));
-            GameOver.gameObject.SetActive(true);
+            StartCoroutine(GameOVerScreen());
         }
+    }
+
+    IEnumerator GameOVerScreen()
+    {
+        Transiciones.Instance.activarTrnasicion();
+        yield return new WaitForSeconds(1.0f);
+        Time.timeScale = 0;
+        soundManager.Instance.PausarSonidos();
+        soundManager.Instance.PlayEfecto(sonidoGameOver, 1);
+        GameOver.gameObject.SetActive(true);
+        var eventSystem = EventSystem.current;
+        eventSystem.SetSelectedGameObject(SalirGAMEOVER, new BaseEventData(eventSystem));
     }
 
     public void CurarVida(float cantidad)
@@ -557,8 +562,8 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     {
         yield return new WaitForSeconds(tiempoRespawn);
 
-        //Transiciones.Instance.activarTrnasicion();
-        yield return new WaitForSeconds(1.0f);
+        Transiciones.Instance.activarTrnasicion();
+        yield return new WaitForSeconds(.1f);
         this.transform.position = new Vector3(0, 4, 0);
         rb.velocity = new Vector2(0, 0);
         rodando = false;
