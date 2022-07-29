@@ -16,8 +16,12 @@ public class puntoVida : MonoBehaviour, IObjeto
 
     public AudioClip sonidoObtener;
 
+    public int scoreObtanied;
+
     //public Color colorPS;
     public GameObject sprite;
+
+    public int score;
 
     void Awake()
     {
@@ -46,6 +50,7 @@ public class puntoVida : MonoBehaviour, IObjeto
         objetoPS.Play();
         objeto.CurarVida (puntosVida);
         an.SetTrigger("Tomado");
+        ScoreManager.Instance.addScore (score);
         Destruir(0.5f);
     }
 }

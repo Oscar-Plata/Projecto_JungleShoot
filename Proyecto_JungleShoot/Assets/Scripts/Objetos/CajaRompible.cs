@@ -24,6 +24,8 @@ public class CajaRompible : MonoBehaviour, IDaño
 
     private bool muerto;
 
+    public int score;
+
     private void Awake()
     {
         an = GetComponent<Animator>();
@@ -46,6 +48,7 @@ public class CajaRompible : MonoBehaviour, IDaño
         dpi.Dropear(1.0f);
         soundManager.Instance.PlayEfecto(sonidoRoto, Random.Range(.8f, 1.2f));
         an.SetBool("Romper", true);
+        ScoreManager.Instance.addScore (score);
     }
 
     public bool puedeSerDañado()

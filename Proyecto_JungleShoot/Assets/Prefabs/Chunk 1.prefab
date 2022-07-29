@@ -10239,6 +10239,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1785378005272719693}
     m_Modifications:
+    - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
+      propertyPath: cantidad
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1671845867780226276, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -10564,7 +10568,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: cantidad
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1344759081456831638, guid: 9f634298a860844498998d648af96ad3, type: 3}
       propertyPath: tiempoSpawn

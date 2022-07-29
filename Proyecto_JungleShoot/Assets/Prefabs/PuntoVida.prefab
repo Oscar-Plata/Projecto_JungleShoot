@@ -194,7 +194,9 @@ MonoBehaviour:
   puntosVida: 1
   objetoPS: {fileID: 2173748304571621083}
   sonidoObtener: {fileID: 8300000, guid: be233a69411a7fe4ebf116f6714c65f1, type: 3}
+  scoreObtanied: 0
   sprite: {fileID: 318255674}
+  score: 5
 --- !u!1001 &7831866102670523868
 PrefabInstance:
   m_ObjectHideFlags: 0

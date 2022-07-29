@@ -36,4 +36,9 @@ public class ScoreManager : MonoBehaviour
     {
         score -= n;
     }
+
+    public void erase()
+    {
+        score = 0;
+    }
 }

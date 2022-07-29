@@ -24,6 +24,8 @@ public class BarrilExplosivo : MonoBehaviour, IDaño
 
     public ParticleSystem efectoExplosion;
 
+    public int score;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -66,6 +68,7 @@ public class BarrilExplosivo : MonoBehaviour, IDaño
         if (efectoExplosion != null) efectoExplosion.Play();
         ShakeManager.Instance.agitarCamara(15.0f, 1.0f);
         soundManager.Instance.PlayEfecto(sonidoRoto, Random.Range(.8f, 1.2f));
+        ScoreManager.Instance.addScore (score);
     }
 
     public void CurarVida(float cantidad)

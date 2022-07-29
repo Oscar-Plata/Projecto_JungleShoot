@@ -108,6 +108,7 @@ MonoBehaviour:
   tiempoHit: 0.1
   dpi: {fileID: 166841739087522732}
   colorHit: {r: 0.4056604, g: 0.29495978, b: 0.05510856, a: 1}
+  score: 20
 --- !u!114 &166841739087522732
 MonoBehaviour:
   m_ObjectHideFlags: 0

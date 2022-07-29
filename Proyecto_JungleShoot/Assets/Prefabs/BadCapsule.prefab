@@ -309,6 +309,7 @@ MonoBehaviour:
   tiempoInvencible: 0.4
   fuerzaGolpeado: {x: 6, y: 3}
   tiempoGolpeado: 0.3
+  score: 100
 --- !u!114 &787230148127006421
 MonoBehaviour:
   m_ObjectHideFlags: 0

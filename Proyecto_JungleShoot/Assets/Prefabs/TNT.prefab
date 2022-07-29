@@ -41,7 +41,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5719083562808571545}
   serializedVersion: 8
-  lengthInSec: 0.2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4987,6 +4987,7 @@ MonoBehaviour:
   sonidoRoto: {fileID: 8300000, guid: 2d6aed62de3a8054fab98df3e6a0afba, type: 3}
   an: {fileID: 0}
   efectoExplosion: {fileID: 5719083562808571540}
+  score: 30
 --- !u!95 &5719083563777935131
 Animator:
   serializedVersion: 4
@@ -5081,7 +5082,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 7
 --- !u!114 &5719083563917227990
 MonoBehaviour:
   m_ObjectHideFlags: 0

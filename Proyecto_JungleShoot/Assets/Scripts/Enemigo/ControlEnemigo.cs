@@ -81,6 +81,8 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     public float tiempoGolpeado = .3f;
 
+    public int score;
+
     private void Awake() //Obtener componentes inicales
     {
         rb = GetComponent<Rigidbody2D>();
@@ -246,6 +248,9 @@ public class ControlEnemigo : MonoBehaviour, IDaño
 
     public void Morir(bool check)
     {
+        //dropItem
+        dpi.Dropear();
+        ScoreManager.Instance.addScore (score);
         rb.velocity = Vector2.zero; //quitar velocidades
         patruyando = atacando = vigilando = false; // deshabilitar comportamientos
 
@@ -260,9 +265,6 @@ public class ControlEnemigo : MonoBehaviour, IDaño
         an.SetBool("Morir", true);
         rb.gravityScale = 0;
         cld.enabled = false;
-
-        //dropItem
-        dpi.Dropear();
     }
 
     public void Destruir()
