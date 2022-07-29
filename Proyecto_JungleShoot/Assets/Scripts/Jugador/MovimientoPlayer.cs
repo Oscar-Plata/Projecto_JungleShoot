@@ -238,7 +238,7 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
     */
     public void OnMovimientoX(InputValue iv)
     {
-        if (muerto || pausaPlayer) return;
+        if (muerto) return;
         float valor = iv.Get<float>();
         an.SetBool("caminar", true);
         velocidadActual = valor * velocidadMovimiento; //calculo de velocidad actual
@@ -265,7 +265,6 @@ public class MovimientoPlayer : MonoBehaviour, IDaño
 
     public void OnMovimientoY(InputValue iv)
     {
-        if (pausaPlayer) return;
         float valor = iv.Get<float>();
         if (valor < -0.5)
             direccionAtaque.y = -1;

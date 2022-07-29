@@ -56,6 +56,7 @@ public class pausa : MonoBehaviour
     public void Salir()
     {
         DeactivateMenu();
+        ShakeManager.Instance.enJuego = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 

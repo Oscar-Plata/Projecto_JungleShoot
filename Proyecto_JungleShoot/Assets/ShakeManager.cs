@@ -18,6 +18,8 @@ public class ShakeManager : MonoBehaviour
 
     CinemachineBasicMultiChannelPerlin cvRuido;
 
+    public bool enJuego;
+
     void Awake()
     {
         if (ShakeManager.Instance == null)
@@ -31,6 +33,16 @@ public class ShakeManager : MonoBehaviour
         }
         cv = GameObject.FindGameObjectWithTag("CamaraVirtual").GetComponent<CinemachineVirtualCamera>();
         if (cv != null) cvRuido = cv.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        enJuego = true;
+    }
+
+    private void Update()
+    {
+        if (cv == null && enJuego)
+        {
+            cv = GameObject.FindGameObjectWithTag("CamaraVirtual").GetComponent<CinemachineVirtualCamera>();
+            if (cv != null) cvRuido = cv.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        }
     }
 
     public void agitarCamara()

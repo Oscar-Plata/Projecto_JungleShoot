@@ -34,7 +34,8 @@ public class DropItems : MonoBehaviour
     public void Dropear()
     {
         float rndDrop = Random.Range(0.0f, 1.0f);
-        Debug.Log("DROP %: " + rndDrop);
+
+        //Debug.Log("DROP %: " + rndDrop);
         if (rndDrop <= porcentajeDrop)
         {
             for (var i = 0; i < cantidadItems; i++)

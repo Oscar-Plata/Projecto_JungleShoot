@@ -63,5 +63,6 @@ public class GeneradorChunks : MonoBehaviour
             posChunk.position = new Vector3(posChunk.position.x + offset.x, posChunk.position.y + offset.y, posChunk.position.z);
         }
         soundManager.Instance.PlayFondo (musicaFondo);
+        ShakeManager.Instance.enJuego = true;
     }
 }
