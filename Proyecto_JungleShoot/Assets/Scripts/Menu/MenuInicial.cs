@@ -7,7 +7,14 @@ public class MenuInicial : MonoBehaviour
 {
     public void Jugar()
     {
-        //Transiciones.Instance.activarTrnasicion();
+        StartCoroutine(Cambiar());
+    }
+
+    IEnumerator Cambiar()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Transiciones.Instance.activarTrnasicion();
+        yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
