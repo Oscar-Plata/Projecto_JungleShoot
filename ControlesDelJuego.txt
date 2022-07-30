@@ -1,0 +1,21 @@
+Teclado solo:
+> MOVIMIENTO "WASD"
+> DASH:  "SHIFT"
+> SALTO: "SPACE"
+> SHOOT: "K"
+> Pausa: "Esc"
+
+Teclado/Mouse
+> MOVIMIENTO "WASD"
+> DASH:  "SHIFT"
+> SALTO: "SPACE"
+> SHOOT: "Click Izquierdo"
+> Pausa: "Esc"
+
+
+XBOX GAMEPAD
+> MOVIMIENTO "Joystic Derecho"
+> DASH:  "B"
+> SALTO: "A"
+> SHOOT: "X"
+> Pausa: "START"
